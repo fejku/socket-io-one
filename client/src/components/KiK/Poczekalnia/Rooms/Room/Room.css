@@ -1,0 +1,8 @@
+.room {
+  height: 100px;
+  border: solid 1px black;
+}
+
+.room_name {
+  height: 30%;
+}
