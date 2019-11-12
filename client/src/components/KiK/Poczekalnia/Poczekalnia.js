@@ -11,7 +11,7 @@ const Poczekalnia = () => {
   const [nazwaPokoju, setNazwaPokoju] = useState('');
 
   useEffect(() => {
-    socket.emit('rooms', (rooms) => {     
+    socket.emit('get rooms', (rooms) => {     
       setRooms(rooms);
     });
 

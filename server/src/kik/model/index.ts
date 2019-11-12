@@ -1,0 +1,1 @@
+export { Pokoj } from './pokoj';
