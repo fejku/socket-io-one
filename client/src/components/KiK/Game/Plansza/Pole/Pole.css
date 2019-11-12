@@ -1,0 +1,14 @@
+.pole {
+  width: 30%;
+  height: 30%;
+}
+
+.pion {
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.poziom {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
