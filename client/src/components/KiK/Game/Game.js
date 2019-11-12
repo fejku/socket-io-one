@@ -11,6 +11,7 @@ const Game = () => {
     <div className="game">
       <div className="title">
         <p>Socket id: {socket.id}</p>
+        <p>Tura: </p>
       </div>      
       <Plansza />
     </div>

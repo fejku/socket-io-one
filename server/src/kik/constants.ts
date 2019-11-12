@@ -10,4 +10,7 @@ export enum SocketEvent {
 
   //Game
   START_GAME = 'start game',
+  MY_TURN = 'my turn',
+  WIN = 'win',
+  LOSE = 'lose',
 }

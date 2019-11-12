@@ -2,9 +2,11 @@ import { Server, Namespace, Socket } from 'socket.io';
 import { SocketEvent } from './constants';
 
 import { Pokoj } from './model';
+import { Game } from './game/game';
 
 export class KiK {
   private static readonly NAMESPACE: string = '/kik';
+  public static readonly WIELKOSC_POKOJU: number = 2;
   private namespace: Namespace;
   
   constructor(io: Server) {
@@ -38,8 +40,12 @@ export class KiK {
         // TODO: sprawdzenie czy nadal tylko jeden możliwe dołączenie do pokoju
         socket.join(nazwaPokoju);
         this.namespace.emit(SocketEvent.REFRESH_ROOMS, this.dajPokoje());
-        //Jeśli dwóch graczy w pokoju
-        this.namespace.to(nazwaPokoju).emit(SocketEvent.START_GAME);
+
+        const iloscGraczyWPokoju = this.namespace.adapter.rooms[nazwaPokoju].length;
+        if (KiK.WIELKOSC_POKOJU === iloscGraczyWPokoju) {
+          const game = new Game(this.namespace, nazwaPokoju);
+          game.start();
+        }
       });      
 
       socket.on(SocketEvent.DISCONNECT, () => {

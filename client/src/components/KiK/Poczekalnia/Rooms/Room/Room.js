@@ -15,14 +15,13 @@ const Room = ({room}) => {
 
   useEffect(() => {
     socket.on('start game', () => {
-      // history.push('/kik/game', {socket: 'qwe'});
       setPoczekalnia(false);
     });
 
     return () => {
       socket.off('start game');
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDolaczDoPokoju = () => {
     socket.emit('join room', room.nazwa)

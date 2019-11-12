@@ -23,7 +23,7 @@ const KiK = () => {
   return (
     <KiKSocketContext.Provider value={socket}>
       <KiKPoczekalniaContext.Provider value={setCzyPoczekalnia}>
-        {czySocket? czyPoczekalnia ? <Poczekalnia /> : <Game /> : null}
+        {czySocket && (czyPoczekalnia ? <Poczekalnia /> : <Game />)}
       </KiKPoczekalniaContext.Provider>
     </KiKSocketContext.Provider>
   )
