@@ -8,9 +8,9 @@ const Room = ({room}) => {
   const socket = useContext(KiKSocketContext);
   const setPoczekalnia = useContext(KiKPoczekalniaContext);
 
-  const iloscGraczy = room.gracze.length;
+  const iloscGraczy = room._gracze.length;
   const czyPokojPelny = iloscGraczy === 2 ? '(Full)' : '';
-  const czyGraczWPokoju = room.gracze.includes(socket.id);
+  const czyGraczWPokoju = room._gracze.includes(socket.id);
   const napisIloscGraczy = iloscGraczy + '/2';
 
   useEffect(() => {
@@ -24,16 +24,16 @@ const Room = ({room}) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDolaczDoPokoju = () => {
-    socket.emit('join room', room.nazwa)
+    socket.emit('join room', room._nazwa)
   }; 
 
   return (
-    <div className="room" key={room.nazwa}>
+    <div className="room" key={room._nazwa}>
       <div className="room_name">
-        {room.nazwa} - {napisIloscGraczy} {czyPokojPelny}
+        {room._nazwa} - {napisIloscGraczy} {czyPokojPelny}
         {czyGraczWPokoju || czyPokojPelny ? null : <button onClick={handleDolaczDoPokoju}>Dołącz</button>}        
       </div>            
-      <Gracze gracze={room.gracze} />  
+      <Gracze gracze={room._gracze} />  
     </div>
   )
 }

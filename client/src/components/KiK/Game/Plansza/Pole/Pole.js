@@ -2,17 +2,22 @@ import React from 'react'
 
 import './Pole.css';
 
-const Pole = ({id, klasy}) => {
-  const handlePoleClick = () => {
-    console.log(id);
-    
+const Pole = ({id, klasy, onClick}) => {
+
+  const dajKlasy = () => {
+    const result = ['pole', ...klasy];
+    return result.join(' ');
+  }
+
+  const handleClick = () => {
+    onClick(id);
   };
 
   return (
-    <div className={`pole${klasy ? ` ${klasy}` : ''}`} onClick={handlePoleClick}>
+    <div className={dajKlasy()} onClick={handleClick}>
       
     </div>
   )
 }
 
-export default Pole
+export default Pole;

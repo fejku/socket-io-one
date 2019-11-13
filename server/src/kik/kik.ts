@@ -30,11 +30,16 @@ export class KiK {
         response(this.dajPokoje());
       });
 
-      socket.on(SocketEvent.CREATE_ROOM, (nazwaPokoju: string) => {
-        // TODO: sprawdzenie czy pokoj o takiej nazwie już istnieje
-        socket.join(nazwaPokoju);
-        this.namespace.emit(SocketEvent.REFRESH_ROOMS, this.dajPokoje());
-      });
+      socket.on(SocketEvent.CREATE_ROOM, (nazwaPokoju: string, response: (result: boolean) => {}) => {
+        // Sprawdzenie czy pokoj o takiej nazwie już istnieje
+        if (this.dajPokoje().some(pokoj => pokoj.nazwa === nazwaPokoju)) {         
+          response(false);
+        } else {
+           socket.join(nazwaPokoju);
+          this.namespace.emit(SocketEvent.REFRESH_ROOMS, this.dajPokoje());
+          response(true);
+        }
+      }); 
 
       socket.on(SocketEvent.JOIN_ROOM, (nazwaPokoju: string) => {
         // TODO: sprawdzenie czy nadal tylko jeden możliwe dołączenie do pokoju
@@ -43,7 +48,7 @@ export class KiK {
 
         const iloscGraczyWPokoju = this.namespace.adapter.rooms[nazwaPokoju].length;
         if (KiK.WIELKOSC_POKOJU === iloscGraczyWPokoju) {
-          const game = new Game(this.namespace, nazwaPokoju);
+          const game = new Game(this.namespace, socket, nazwaPokoju);
           game.start();
         }
       });      

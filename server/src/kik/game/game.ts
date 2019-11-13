@@ -1,4 +1,4 @@
-import { Namespace } from 'socket.io';
+import { Namespace, Socket } from 'socket.io';
 import { SocketEvent } from '../constants';
 import { KiK } from '../kik';
 
@@ -7,7 +7,7 @@ export class Game {
   private aktywnyGracz: number;
   private plansza: number[];
 
-  constructor(private namespace: Namespace, private nazwaPokoju: string) {
+  constructor(private namespace: Namespace, private socket: Socket, private nazwaPokoju: string) {   
     this.gracze = [];
     // Losuję aktywnego gracza
     this.aktywnyGracz = Math.floor(Math.random() * KiK.WIELKOSC_POKOJU);
@@ -31,8 +31,9 @@ export class Game {
     // Pobieram graczy
     this.gracze = Object.keys(this.namespace.adapter.rooms[this.nazwaPokoju].sockets);
 
-    this.namespace.to(this.aktualnyGracz()).emit(SocketEvent.MY_TURN, this.plansza, this.aktywnyGracz);
-    // let aktywnyGracz = gracze
-    // // Wysyłam pierwszemu graczowi sygnał 
+    // this.socket.on('ready', () => {
+    //   console.log('TEST');
+    //   this.namespace.to(this.aktualnyGracz()).emit(SocketEvent.MY_TURN, this.plansza, this.aktywnyGracz);      
+    // })
   }
 }

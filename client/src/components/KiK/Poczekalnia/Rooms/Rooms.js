@@ -5,7 +5,7 @@ import './Rooms.css';
 
 const Rooms = ({rooms}) => {
 
-  const roomsList = rooms.map(room => <Room key={room} room={room} />);
+  const roomsList = rooms.map(room => <Room key={room._nazwa} room={room} />);
 
   return (
     <div className="rooms">
