@@ -29,7 +29,7 @@ const Poczekalnia = () => {
   }, [socket]);  
 
   const handleCreateRoom = () => {
-    socket.emit('create room', nazwaPokoju, (result) => {
+    socket.emit('join room', nazwaPokoju, true, (result) => {
       if (result) {
         setPoczekalnia(false);
       } else {

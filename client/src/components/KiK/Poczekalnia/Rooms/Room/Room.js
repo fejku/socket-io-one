@@ -24,7 +24,7 @@ const Room = ({room}) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDolaczDoPokoju = () => {
-    socket.emit('join room', room._nazwa)
+    socket.emit('join room', room._nazwa, false)
   }; 
 
   return (
