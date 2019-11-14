@@ -2,7 +2,7 @@ import React from 'react'
 
 import './Pole.css';
 
-const Pole = ({id, klasy, onClick}) => {
+const Pole = ({id, wartosc, klasy, onClick}) => {
 
   const dajKlasy = () => {
     const result = ['pole', ...klasy];
@@ -15,7 +15,7 @@ const Pole = ({id, klasy, onClick}) => {
 
   return (
     <div className={dajKlasy()} onClick={handleClick}>
-      
+      {wartosc}
     </div>
   )
 }

@@ -1,9 +1,12 @@
-import React from 'react'
-import Pole from './Pole/Pole'
+import React from 'react';
+import Pole from './Pole/Pole';
+
+import { SocketContext } from '../../../KolkoIKrzyzyk';
 
 import './Plansza.css';
 
 function Plansza({statusAktywny, planszaState: [plansza, setPlansza], aktywnyGracz}) {
+  const socket = useContext(SocketContext);
 
   const dajKlasy = (index) => {
     let result = [];
@@ -25,6 +28,8 @@ function Plansza({statusAktywny, planszaState: [plansza, setPlansza], aktywnyGra
       const nowaPlansza = [...plansza];
       nowaPlansza[index] = aktywnyGracz;
       setPlansza(nowaPlansza);
+
+      socket.emit('move', index);
     }    
   };
 
@@ -32,6 +37,7 @@ function Plansza({statusAktywny, planszaState: [plansza, setPlansza], aktywnyGra
     return <Pole 
       key={index} 
       id={index} 
+      wartosc={plansza[aktywnyGracz]}
       klasy={dajKlasy(index)} 
       onClick={handlePoleClick}
     />

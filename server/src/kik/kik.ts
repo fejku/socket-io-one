@@ -2,7 +2,7 @@ import { Server, Namespace, Socket } from 'socket.io';
 import { SocketEvent } from './constants';
 
 import { Pokoj, Gracz } from './model';
-import { Game } from './game/game';
+import { Gra } from './game/game';
 import { Pokoje } from './pokoje';
 
 export class KiK {
@@ -10,6 +10,9 @@ export class KiK {
   public static readonly WIELKOSC_POKOJU: number = 2;
   private namespace: Namespace;
   private pokoje: Pokoje;
+  private gry: Gra[];
+  // TODO: gra zaczyna się albo w create game co ma sens albo ew w ready gdy jest obu graczy
+  // pokoj wydaje sie, że powinien być częśćią gry???
   
   constructor(io: Server) {
     this.namespace = io.of(KiK.NAMESPACE);

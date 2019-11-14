@@ -1,8 +1,12 @@
 .zakladki {
+  height: 90%;
+}
+
+.zakladki_menu {
   display: flex;
 }
 
-.zakladki > li {
+.zakladki_menu > li {
   list-style: none;
   margin: 0;
   padding: 0 5px;

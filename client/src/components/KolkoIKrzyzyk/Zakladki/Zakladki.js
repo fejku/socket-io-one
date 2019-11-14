@@ -24,8 +24,8 @@ const Zakladki = () => {
 
   return (
     <ZakladkiContext.Provider value={[zakladki, setZakladki]}>
-      <div>
-        <ul className="zakladki">
+      <div className="zakladki">
+        <ul className="zakladki_menu">
           {React.Children.map(zakladki, (item, index) => (
             <ElementMenu 
               key={index}

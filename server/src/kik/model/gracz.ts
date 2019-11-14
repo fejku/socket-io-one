@@ -1,9 +1,9 @@
 export class Gracz {
   private _ready: boolean;
- 
-  constructor(private _id: string) {
-    this._ready = false;
-  }
+
+  constructor(private _id: string, ready?: boolean) {
+    this._ready = ready ? true : false;
+  }  
 
   public get id(): string {
     return this._id;
