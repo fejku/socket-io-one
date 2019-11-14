@@ -1,8 +1,10 @@
+import { Gracz } from '.';
+
 export class Pokoj {
   constructor(
     private _id: number,
     private _nazwa: string, 
-    private _gracze: string[],
+    private _gracze: Gracz[],
   ) {}
 
   public get id(): number {
@@ -17,10 +19,10 @@ export class Pokoj {
   public set nazwa(value: string) {
     this._nazwa = value;
   }
-  public get gracze(): string[] {
+  public get gracze(): Gracz[] {
     return this._gracze;
   }
-  public set gracze(value: string[]) {
+  public set gracze(value: Gracz[]) {
     this._gracze = value;
-  }  
+  }
 }

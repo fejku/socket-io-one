@@ -18,7 +18,7 @@ const Pokoj = ({pokoj}) => {
   const napisIloscGraczy = iloscGraczy + '/2';
 
   const handleDolaczDoPokoju = () => {
-    socket.emit('join room', pokoj._id, false);
+    socket.emit('join room', pokoj._id);
     setZakladki([...zakladki, <Gra nazwa={pokoj._nazwa} pokoj={pokoj} />])
   }; 
 

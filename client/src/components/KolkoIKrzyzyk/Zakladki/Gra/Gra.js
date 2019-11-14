@@ -4,7 +4,7 @@ import { SocketContext } from '../../KolkoIKrzyzyk';
 
 import './Gra.css';
 
-const Gra = ({nazwa, pokoj}) => {
+const Gra = ({pokoj}) => {
   const socket = useContext(SocketContext);
 
   const [plansza, setPlansza] = useState([-1, -1, -1, -1, -1, -1, -1, -1, -1]);
@@ -13,7 +13,7 @@ const Gra = ({nazwa, pokoj}) => {
   // const [status, setStatus] = useState(false);
 
   useEffect(() => {   
-    // socket.emit('ready');
+    socket.emit('ready', pokoj._id);
     socket.on('my turn', (plansza, aktywnyGracz) => {
       console.log('my turn');
       

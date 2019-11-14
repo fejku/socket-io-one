@@ -1,4 +1,4 @@
-import { Pokoj } from "./model";
+import { Pokoj, Gracz } from "./model";
 
 export class Pokoje {
   private aktualneId: number;
@@ -9,13 +9,24 @@ export class Pokoje {
     this._listaPokoi = [];
   }
 
-  public nowyPokoj(nazwa: string, gracz: string): Pokoj {
-    const gracze: string[] = [];
-    gracze.push(gracz)
+  public dajPokoj(id: number) {
+    return this.listaPokoi.find(pokoj => pokoj.id === id);
+  }
 
+  public nowyPokoj(nazwa: string, graczId: string): Pokoj {
+    const gracze = [new Gracz(graczId)];
     const pokoj = new Pokoj(this.aktualneId++, nazwa, gracze);
     this.listaPokoi.push(pokoj);
     return pokoj;
+  }
+
+  public dolaczDoPokoju(id: number, gracz: Gracz): boolean {
+    const pokoj = this.dajPokoj(id);
+    if (pokoj) {
+      pokoj.gracze.push(gracz);
+      return true;
+    }
+    return false;
   }
 
   public get listaPokoi(): Pokoj[] {

@@ -1,7 +1,7 @@
 import { Server, Namespace, Socket } from 'socket.io';
 import { SocketEvent } from './constants';
 
-import { Pokoj } from './model';
+import { Pokoj, Gracz } from './model';
 import { Game } from './game/game';
 import { Pokoje } from './pokoje';
 
@@ -31,21 +31,22 @@ export class KiK {
         response(pokoj);
       });
 
-      socket.on(SocketEvent.JOIN_ROOM, (nazwaPokoju: string, czyNowy: boolean, response: (result: boolean) => {}) => {
-        if (czyNowy) {
-          const pokoj = this.pokoje.nowyPokoj(nazwaPokoju, socket.id);
-          socket.join(pokoj.id.toString());
+      socket.on(SocketEvent.JOIN_ROOM, (id: number) => {
+        if (this.pokoje.dolaczDoPokoju(id, new Gracz(socket.id))) {
+          socket.join(id.toString());
+          this.namespace.emit(SocketEvent.REFRESH_ROOMS, this.pokoje.listaPokoi);
         }
-        // response(true);        
-        // socket.join(nazwaPokoju);
-        // this.namespace.emit(SocketEvent.REFRESH_ROOMS, this.dajPokoje());
+      });
 
-        // const iloscGraczyWPokoju = this.namespace.adapter.rooms[nazwaPokoju].length;
-        // if (KiK.WIELKOSC_POKOJU === iloscGraczyWPokoju) {
-        //   const game = new Game(this.namespace, socket, nazwaPokoju);
-        //   game.start();
-        // }
-      });     
+      socket.on(SocketEvent.READY, (id: number) => {
+        const pokoj = this.pokoje.dajPokoj(id);
+        if (pokoj) {
+          if (KiK.WIELKOSC_POKOJU === pokoj.gracze.length) {
+            const game = new Game(this.namespace, socket, pokoj);
+            game.start();            
+          }
+        }
+      });
 
       socket.on(SocketEvent.DISCONNECT, () => {
         console.log(`Client ${socket.id} disconnected`);

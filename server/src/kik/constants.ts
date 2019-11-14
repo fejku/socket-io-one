@@ -9,7 +9,8 @@ export enum SocketEvent {
   REFRESH_ROOMS = 'refresh rooms',
 
   //Game
-  START_GAME = 'start game',
+  READY = 'ready',
+  START_GAME = 'start game',  
   MY_TURN = 'my turn',
   WIN = 'win',
   LOSE = 'lose',

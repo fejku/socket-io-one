@@ -15,7 +15,7 @@ const KolkoIKrzyzyk = () => {
 
     socketIO.on('connect', () => {
       setSocket(socketIO);
-    })
+    });
   }, []);
   
   return (
