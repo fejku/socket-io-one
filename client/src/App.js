@@ -5,7 +5,7 @@ import './App.css';
 
 import Header from './global/Header';
 import Home from './components/Home/Home';
-import KiK from './components/KiK/KiK';
+import KolkoIKrzyzyk from './components/KolkoIKrzyzyk/KolkoIKrzyzyk';
 
 const App = () => {
   return (
@@ -14,7 +14,7 @@ const App = () => {
         <Header />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/kik" component={KiK} />
+          <Route exact path="/kik" component={KolkoIKrzyzyk} />
         </Switch>
       </BrowserRouter>
     </div>

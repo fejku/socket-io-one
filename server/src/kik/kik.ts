@@ -16,21 +16,19 @@ export class KiK {
     this.pokoje = new Pokoje();
   }
 
-  // private dajPokoje(): Pokoj[] {
-  //   const rooms = this.namespace.adapter.rooms;          
-  //   const allRoomsNames = Object.keys(rooms);
-
-  //   return allRoomsNames
-  //     .filter(roomName => !roomName.startsWith(KiK.NAMESPACE + '#'))
-  //     .map(room => new Pokoj(room, Object.keys(rooms[room].sockets)));    
-  // }
-
   public addNamespace(): void {
     this.namespace.on(SocketEvent.CONNECT, (socket: Socket) => {
       console.log(`Client ${socket.id} connected`);
 
       socket.on(SocketEvent.GET_ROOMS, (response: (pokoje: Pokoj[]) => void) => {
         response(this.pokoje.listaPokoi);
+      });
+
+      socket.on(SocketEvent.CREATE_ROOM, (nazwaPokoju: string, response: (pokoj: Pokoj) => {}) => {
+        const pokoj = this.pokoje.nowyPokoj(nazwaPokoju, socket.id);
+        socket.join(pokoj.id.toString());
+        this.namespace.emit(SocketEvent.REFRESH_ROOMS, this.pokoje.listaPokoi);
+        response(pokoj);
       });
 
       socket.on(SocketEvent.JOIN_ROOM, (nazwaPokoju: string, czyNowy: boolean, response: (result: boolean) => {}) => {

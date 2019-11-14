@@ -1,0 +1,4 @@
+.gracz {
+  flex: 0 1 50%;
+  border: solid 1px black;
+}
