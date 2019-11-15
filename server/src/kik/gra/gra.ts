@@ -5,16 +5,16 @@ export class Gra {
   public static readonly MAX_ILOSC_GRACZY = 2;
 
   private _gracze: Gracz[];
-  private aktywnyGracz: number;
-  private plansza: number[];
+  private _aktywnyGracz: number;
+  private _plansza: number[];
   
   constructor(private gracz: string) {   
-    this.aktywnyGracz = 0;
-    this.plansza = [-1, -1, -1, -1, -1, -1, -1, -1, -1];
+    this._aktywnyGracz = 0;
+    this._plansza = [-1, -1, -1, -1, -1, -1, -1, -1, -1];
     this._gracze = [new Gracz(gracz)];
   }
 
-  private wylosujKolejnosc(): void {
+  public wylosujKolejnosc(): void {
     if (Math.floor(Math.random() * 2)) {
       const pom = this._gracze[0];
       this._gracze[0] = this._gracze[1];
@@ -41,14 +41,30 @@ export class Gra {
     return this._gracze[idGracza];
   }
 
-  private nastepnyGracz(): Gracz {
+  public nastepnyGracz(): void {
     if (++this.aktywnyGracz === Gra.MAX_ILOSC_GRACZY) {
       this.aktywnyGracz = 0;
     }
-    return this.aktualnyGracz();
   }
 
   public czyWszyscyGracze(): boolean {
     return this._gracze.length === Gra.MAX_ILOSC_GRACZY;
+  }
+
+  public ruch(poleId: number): void {
+    this.plansza[poleId] = this.aktywnyGracz;
+  }
+
+  public get plansza(): number[] {
+    return this._plansza;
+  }
+  public set plansza(value: number[]) {
+    this._plansza = value;
+  }
+  public get aktywnyGracz(): number {
+    return this._aktywnyGracz;
+  }
+  public set aktywnyGracz(value: number) {
+    this._aktywnyGracz = value;
   }
 }

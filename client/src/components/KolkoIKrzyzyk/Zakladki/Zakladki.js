@@ -12,7 +12,7 @@ const Zakladki = () => {
 
   // TODO: Aktualnie tylko dodawnie nowych pokoi, ale w przyszłości trzeba będzie
   // zrobić sprawdzanie z poprzednim stanem (useRef) i jesli pokój został zamknięty
-  // to powracać poczekalni
+  // to powracać do poczekalni? a może zawsze powrót do ostatniego pokoju?
   useEffect(() => {
     const ostatniaZakladka = zakladki.length - 1;
     setAktualnaZakladka(ostatniaZakladka);    

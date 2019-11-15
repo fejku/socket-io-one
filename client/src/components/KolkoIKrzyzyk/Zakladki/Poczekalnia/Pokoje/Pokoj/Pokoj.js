@@ -12,9 +12,9 @@ const Pokoj = ({pokoj}) => {
   const socket = useContext(SocketContext);
   const [zakladki, setZakladki] = useContext(ZakladkiContext);
 
-  const iloscGraczy = pokoj._gracze.length;
+  const iloscGraczy = pokoj._gra._gracze.length;
   const czyPokojPelny = iloscGraczy === 2 ? '(Full)' : '';
-  const czyGraczWPokoju = pokoj._gracze.includes(socket.id);
+  const czyGraczWPokoju = pokoj._gra._gracze.includes(socket.id);
   const napisIloscGraczy = iloscGraczy + '/2';
 
   const handleDolaczDoPokoju = () => {
@@ -29,7 +29,7 @@ const Pokoj = ({pokoj}) => {
           {pokoj._nazwa} - {napisIloscGraczy} {czyPokojPelny}
           {czyGraczWPokoju || czyPokojPelny ? null : <button onClick={handleDolaczDoPokoju}>Dołącz</button>}        
         </div>            
-        <Gracze gracze={pokoj._gracze} />  
+        <Gracze gracze={pokoj._gra._gracze} />  
       </div>
     </Zakladka>
   )

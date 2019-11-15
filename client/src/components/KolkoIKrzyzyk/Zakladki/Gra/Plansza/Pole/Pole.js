@@ -9,13 +9,21 @@ const Pole = ({id, wartosc, klasy, onClick}) => {
     return result.join(' ');
   }
 
+  const dajSymbol = (wartosc) => {
+    switch(wartosc) {
+      case 0: return 'O';
+      case 1: return 'X';
+      default: return '';
+    }
+  }
+
   const handleClick = () => {
     onClick(id);
   };
 
   return (
     <div className={dajKlasy()} onClick={handleClick}>
-      {wartosc}
+      {dajSymbol(wartosc)}
     </div>
   )
 }

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Pole from './Pole/Pole';
 
 import { SocketContext } from '../../../KolkoIKrzyzyk';
 
 import './Plansza.css';
 
-function Plansza({statusAktywny, planszaState: [plansza, setPlansza], aktywnyGracz}) {
+function Plansza({statusAktywny, planszaState: [plansza, setPlansza], aktywnyGracz, pokoj}) {
   const socket = useContext(SocketContext);
 
   const dajKlasy = (index) => {
@@ -23,13 +23,13 @@ function Plansza({statusAktywny, planszaState: [plansza, setPlansza], aktywnyGra
     return statusAktywny && (pole === -1);
   }
 
-  const handlePoleClick = (index) => {
-    if (czyPoleAktywne(plansza[index])) {
+  const handlePoleClick = (poleId) => {
+    if (czyPoleAktywne(plansza[poleId])) {
       const nowaPlansza = [...plansza];
-      nowaPlansza[index] = aktywnyGracz;
+      nowaPlansza[poleId] = aktywnyGracz;
       setPlansza(nowaPlansza);
 
-      socket.emit('move', index);
+      socket.emit('move', pokoj._id, poleId);
     }    
   };
 
@@ -37,7 +37,7 @@ function Plansza({statusAktywny, planszaState: [plansza, setPlansza], aktywnyGra
     return <Pole 
       key={index} 
       id={index} 
-      wartosc={plansza[aktywnyGracz]}
+      wartosc={plansza[index]}
       klasy={dajKlasy(index)} 
       onClick={handlePoleClick}
     />

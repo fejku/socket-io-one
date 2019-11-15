@@ -37,13 +37,33 @@ export class KiK {
         }
       });
 
-      socket.on(SocketEvent.READY, (id: number) => {
-        const pokoj = this.pokoje.dajPokoj(id);
+      socket.on(SocketEvent.READY, (pokojId: number) => {
+        const pokoj = this.pokoje.dajPokoj(pokojId);
         if (pokoj) {
           if (pokoj.gra.czyWszyscyGracze()) {
-            this.namespace.to(pokoj.gra.aktualnyGracz().id.toString()).emit(SocketEvent.MY_TURN);
-            this.namespace.to(pokoj.gra.nieaktywnyGracz().id.toString()).emit(SocketEvent.OPPONENT_TURN);
+            const gra = pokoj.gra;
+            gra.wylosujKolejnosc();
+            this.namespace.to(gra.aktualnyGracz().id.toString()).emit(SocketEvent.MY_TURN, gra.plansza, gra.aktywnyGracz);
+            this.namespace.to(gra.nieaktywnyGracz().id.toString()).emit(SocketEvent.OPPONENT_TURN, gra.plansza);
           }
+        }
+      });
+
+      socket.on(SocketEvent.MOVE, (pokojId:number, poleId: number) => {
+        const pokoj = this.pokoje.dajPokoj(pokojId);
+        if (pokoj) {
+          const gra = pokoj.gra;
+          gra.ruch(poleId);
+          // if (pokoj.gra.czyWygrana()) {
+          //   emit win
+          //   emit lose
+          // }
+          // if (pokoj.gra.czyRemis() {
+          //   emit room tie
+          // }
+          gra.nastepnyGracz();
+          this.namespace.to(gra.aktualnyGracz().id.toString()).emit(SocketEvent.MY_TURN, gra.plansza, gra.aktywnyGracz);
+          this.namespace.to(gra.nieaktywnyGracz().id.toString()).emit(SocketEvent.OPPONENT_TURN, gra.plansza);          
         }
       });
 
