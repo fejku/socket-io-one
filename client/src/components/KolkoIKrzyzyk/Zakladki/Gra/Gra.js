@@ -33,7 +33,13 @@ const Gra = ({pokoj}) => {
       setStatusAktywny(false);
       setStatus('Tura przeciwnika');
       setPlansza(plansza);      
-    });    
+    });
+    
+    socket.on('end', (plansza, result) => {
+      setStatusAktywny(false);
+      setStatus(wynik(result));
+      setPlansza(plansza);
+    });
 
     return () => {
       socket.off('my turn');
@@ -41,16 +47,19 @@ const Gra = ({pokoj}) => {
     }
   }, [socket, pokoj]);
 
-  // useEffect(() => {
-  //   console.log('qwe');
-    
-  // }, [plansza]);
+  const wynik = (result) => {
+    switch(result) {
+      case 'win': return 'Wygrana';
+      case 'lose': return 'Przegrana';
+      case 'tie': return 'Remis';
+      default: return '';
+    };
+  };
 
   return (
     <div className="gra">
       <div className="title">
         <p>Socket id: {socket.id}</p>
-        {/* <p>Tura: {aktywnyGracz === 0 ? 'O' : 'X'}</p> */}
         <p>{status}</p>
       </div>      
       <Plansza statusAktywny={statusAktywny} planszaState={[plansza, setPlansza]} aktywnyGracz={aktywnyGracz} pokoj={pokoj} />

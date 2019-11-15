@@ -54,16 +54,16 @@ export class KiK {
         if (pokoj) {
           const gra = pokoj.gra;
           gra.ruch(poleId);
-          // if (pokoj.gra.czyWygrana()) {
-          //   emit win
-          //   emit lose
-          // }
-          // if (pokoj.gra.czyRemis() {
-          //   emit room tie
-          // }
-          gra.nastepnyGracz();
-          this.namespace.to(gra.aktualnyGracz().id.toString()).emit(SocketEvent.MY_TURN, gra.plansza, gra.aktywnyGracz);
-          this.namespace.to(gra.nieaktywnyGracz().id.toString()).emit(SocketEvent.OPPONENT_TURN, gra.plansza);          
+          if (pokoj.gra.czyWygrana()) {
+            this.namespace.to(gra.aktualnyGracz().id.toString()).emit(SocketEvent.END, gra.plansza, 'win');
+            this.namespace.to(gra.nieaktywnyGracz().id.toString()).emit(SocketEvent.END, gra.plansza, 'lose');  
+          } else if (pokoj.gra.czyRemis()) {
+            this.namespace.to(poleId.toString()).emit(SocketEvent.END, gra.plansza, 'tie');  
+          } else {
+            gra.nastepnyGracz();
+            this.namespace.to(gra.aktualnyGracz().id.toString()).emit(SocketEvent.MY_TURN, gra.plansza, gra.aktywnyGracz);
+            this.namespace.to(gra.nieaktywnyGracz().id.toString()).emit(SocketEvent.OPPONENT_TURN, gra.plansza);
+          }
         }
       });
 

@@ -55,6 +55,49 @@ export class Gra {
     this.plansza[poleId] = this.aktywnyGracz;
   }
 
+  private czyWygranaPionPoziom(): boolean {
+    for (let i = 0; i < 3; i++) {      
+      let wygranaPion = true;
+      let wygranaPoziom = true;
+      for (let j = 0; j < 3; j++) {
+        if (this.plansza[i + j * 3] !== this.aktywnyGracz) {
+          wygranaPion = false;
+        }
+        if (this.plansza[i * 3 + j] !== this.aktywnyGracz) {
+          wygranaPoziom = false;
+        }        
+      }
+  
+      if (wygranaPion || wygranaPoziom) {
+        return true;
+      }      
+    }
+    return false;
+  }
+
+  private czyWygranaSkos(): boolean {
+    if ((this.plansza[0] === this.aktywnyGracz) && (this.plansza[4] === this.aktywnyGracz) && (this.plansza[8] === this.aktywnyGracz)) {
+      return true;
+    }
+    if ((this.plansza[2] === this.aktywnyGracz) && (this.plansza[4] === this.aktywnyGracz) && (this.plansza[6] === this.aktywnyGracz)) {
+      return true;
+    }
+    return false;    
+  }
+
+  public czyWygrana(): boolean {
+    return this.czyWygranaPionPoziom() || this.czyWygranaSkos();
+  }
+
+  public czyRemis(): boolean {
+    for(const pole of this.plansza) {
+      if (pole === -1) {
+        return false
+      }
+    }
+    return true;
+  }
+
   public get plansza(): number[] {
     return this._plansza;
   }
