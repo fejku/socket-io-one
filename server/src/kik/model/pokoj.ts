@@ -1,11 +1,16 @@
 import { Gracz } from '.';
+import { Gra } from '../gra/gra';
 
-export class Pokoj {
+export class Pokoj { 
+  private _gra: Gra;
+  
   constructor(
     private _id: number,
     private _nazwa: string, 
-    private _gracze: Gracz[],
-  ) {}
+    private gracz: string) 
+  {    
+    this._gra = new Gra(gracz);
+  }
 
   public get id(): number {
     return this._id;
@@ -19,10 +24,10 @@ export class Pokoj {
   public set nazwa(value: string) {
     this._nazwa = value;
   }
-  public get gracze(): Gracz[] {
-    return this._gracze;
+  public get gra(): Gra {
+    return this._gra;
   }
-  public set gracze(value: Gracz[]) {
-    this._gracze = value;
+  public set gra(value: Gra) {
+    this._gra = value;
   }
 }
