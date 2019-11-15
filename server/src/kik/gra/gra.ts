@@ -20,7 +20,17 @@ export class Gra {
       this._gracze[0] = this._gracze[1];
       this._gracze[1] = pom;
     };
-  }  
+  }
+
+  public dolaczGracza(graczId: string): boolean {
+    if(this._gracze.length >= Gra.MAX_ILOSC_GRACZY) {
+      return false;
+    }
+
+    const gracz = new Gracz(graczId);
+    this._gracze.push(gracz);
+    return true;
+  }
 
   public aktualnyGracz(): Gracz {
     return this._gracze[this.aktywnyGracz];
@@ -39,6 +49,6 @@ export class Gra {
   }
 
   public czyWszyscyGracze(): boolean {
-    return
+    return this._gracze.length === Gra.MAX_ILOSC_GRACZY;
   }
 }

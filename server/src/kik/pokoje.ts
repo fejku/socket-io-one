@@ -13,17 +13,16 @@ export class Pokoje {
     return this.listaPokoi.find(pokoj => pokoj.id === id);
   }
 
-  public nowyPokoj(nazwa: string, gracz: string): Pokoj {
-    const pokoj = new Pokoj(this.aktualneId++, nazwa, gracz);
+  public nowyPokoj(nazwa: string, graczId: string): Pokoj {
+    const pokoj = new Pokoj(this.aktualneId++, nazwa, graczId);
     this.listaPokoi.push(pokoj);
     return pokoj;
   }
 
-  public dolaczDoPokoju(id: number, gracz: Gracz): boolean {
-    const pokoj = this.dajPokoj(id);
+  public dolaczDoPokoju(pokojId: number, graczId: string): boolean {
+    const pokoj = this.dajPokoj(pokojId);
     if (pokoj) {
-      pokoj.gracze.push(gracz);
-      return true;
+      return pokoj.gra.dolaczGracza(graczId);
     }
     return false;
   }

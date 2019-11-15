@@ -30,9 +30,9 @@ export class KiK {
         response(pokoj);
       });
 
-      socket.on(SocketEvent.JOIN_ROOM, (id: number) => {
-        if (this.pokoje.dolaczDoPokoju(id, new Gracz(socket.id))) {
-          socket.join(id.toString());
+      socket.on(SocketEvent.JOIN_ROOM, (pokojId: number) => {
+        if (this.pokoje.dolaczDoPokoju(pokojId, socket.id)) {
+          socket.join(pokojId.toString());
           this.namespace.emit(SocketEvent.REFRESH_ROOMS, this.pokoje.listaPokoi);
         }
       });
@@ -42,7 +42,7 @@ export class KiK {
         if (pokoj) {
           if (pokoj.gra.czyWszyscyGracze()) {
             this.namespace.to(pokoj.gra.aktualnyGracz().id.toString()).emit(SocketEvent.MY_TURN);
-            this.namespace.to(pokoj.gra.nieaktywnyGracz().id.toString()).emit(SocketEvent.OPPONENT_TURN);          
+            this.namespace.to(pokoj.gra.nieaktywnyGracz().id.toString()).emit(SocketEvent.OPPONENT_TURN);
           }
         }
       });
