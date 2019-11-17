@@ -6,6 +6,8 @@ import './App.css';
 import Header from './global/Header';
 import Home from './components/Home/Home';
 import KolkoIKrzyzyk from './components/KolkoIKrzyzyk/KolkoIKrzyzyk';
+import NazwaRoute from './components/NazwaRoute';
+import Nazwa from './components/Nazwa';
 
 const App = () => {
   return (
@@ -14,7 +16,10 @@ const App = () => {
         <Header />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/kik" component={KolkoIKrzyzyk} />
+          <Route exact path="/nazwa" component={Nazwa} />
+          <NazwaRoute exact path="/kik">
+            <KolkoIKrzyzyk />
+          </NazwaRoute>          
         </Switch>
       </BrowserRouter>
     </div>
