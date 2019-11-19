@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import Plansza from './Plansza/Plansza';
+import KoniecGryModal from './KoniecGryModal';
 import { SocketContext } from '../../KolkoIKrzyzyk';
 
 import './Gra.css';
 
 const Gra = ({pokoj}) => {
+  const history = useHistory();
   const socket = useContext(SocketContext);
 
   const [plansza, setPlansza] = useState(
@@ -21,7 +25,6 @@ const Gra = ({pokoj}) => {
     socket.emit('ready', pokoj._id);
 
     socket.on('my turn', (plansza, aktywnyGracz) => {
-      console.log('my turn');     
       setStatusAktywny(true);
       setStatus('Moja tura');
       setPlansza(plansza);
@@ -29,7 +32,6 @@ const Gra = ({pokoj}) => {
     });
 
     socket.on('opponent turn', (plansza) => {
-      console.log('opponent turn');      
       setStatusAktywny(false);
       setStatus('Tura przeciwnika');
       setPlansza(plansza);      
@@ -39,6 +41,8 @@ const Gra = ({pokoj}) => {
       setStatusAktywny(false);
       setStatus(wynik(result));
       setPlansza(plansza);
+
+      setKomnunikatModalKoniecGry(wynik(result));      
     });
 
     return () => {
@@ -56,8 +60,28 @@ const Gra = ({pokoj}) => {
     };
   };
 
+  const [komnunikatModalKoniecGry, setKomnunikatModalKoniecGry] = useState('');
+
+  const handleZagrajPonownie = () => {
+    setPlansza([
+      -1, -1, -1, 
+      -1, -1, -1, 
+      -1, -1, -1
+    ]);
+    setStatusAktywny(false);
+    setStatus('Oczekiwanie na przeciwnika');
+    setAktywnyGracz(0);  
+    setKomnunikatModalKoniecGry('');
+    socket.emit('ready', pokoj._id);    
+  }
+  const handleWyjdz = () => {
+    //TODO: wywalić użytkownika z pokoju
+    history.push('/');
+  }
+
   return (
     <div className="gra">
+      <KoniecGryModal title={komnunikatModalKoniecGry} onZagrajPonownie={handleZagrajPonownie} onWyjdz={handleWyjdz} />
       <div className="title">
         <p>Socket id: {socket.id}</p>
         <p>{status}</p>
