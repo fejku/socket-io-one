@@ -40,6 +40,7 @@ export class KiK {
       socket.on(SocketEvent.READY, (pokojId: number) => {
         const pokoj = this.pokoje.dajPokoj(pokojId);
         if (pokoj) {
+          pokoj.gra.ustawAktywnoscGracza(socket.id, true);
           if (pokoj.gra.czyWszyscyGracze()) {
             const gra = pokoj.gra;
             gra.wylosujKolejnosc();
@@ -55,9 +56,11 @@ export class KiK {
           const gra = pokoj.gra;
           gra.ruch(poleId);
           if (pokoj.gra.czyWygrana()) {
+            gra.koniecGry();
             this.namespace.to(gra.aktualnyGracz().id.toString()).emit(SocketEvent.END, gra.plansza, 'win');
             this.namespace.to(gra.nieaktywnyGracz().id.toString()).emit(SocketEvent.END, gra.plansza, 'lose');  
           } else if (pokoj.gra.czyRemis()) {
+            gra.koniecGry();
             this.namespace.to(poleId.toString()).emit(SocketEvent.END, gra.plansza, 'tie');  
           } else {
             gra.nastepnyGracz();

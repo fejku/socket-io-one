@@ -1,7 +1,7 @@
 export class Gracz {
   private _ready: boolean;
 
-  constructor(private _id: string, ready?: boolean) {
+  constructor(private _id: string, private _socketId: string, private  ready?: boolean) {
     this._ready = ready ? true : false;
   }  
 
@@ -16,5 +16,5 @@ export class Gracz {
   }
   public set ready(value: boolean) {
     this._ready = value;
-  }  
+  }
 }

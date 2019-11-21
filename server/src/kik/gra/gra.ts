@@ -98,6 +98,16 @@ export class Gra {
     return true;
   }
 
+  public koniecGry(): void {
+    for(const gracz of this._gracze) {
+      gracz.ready = false;
+    }
+  }
+
+  public ustawAktywnoscGracza(socketId: string, ready: boolean): void {
+    this._gracze.find(gracz => gracz.socketId = socketId).ready = true;
+  }
+
   public get plansza(): number[] {
     return this._plansza;
   }
