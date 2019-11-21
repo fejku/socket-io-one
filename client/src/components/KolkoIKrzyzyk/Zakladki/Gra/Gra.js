@@ -74,6 +74,7 @@ const Gra = ({pokoj}) => {
     setKomnunikatModalKoniecGry('');
     socket.emit('ready', pokoj._id);    
   }
+  
   const handleWyjdz = () => {
     //TODO: wywalić użytkownika z pokoju
     history.push('/');

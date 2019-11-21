@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import Poczekalnia from './Poczekalnia/Poczekalnia';
-import ElementMenu from './Elementy/ElementMenu/ElementMenu';
+import React, { useEffect, useState } from "react";
+import ElementMenu from "./Elementy/ElementMenu/ElementMenu";
+import Poczekalnia from "./Poczekalnia/Poczekalnia";
 
-import './Zakladki.css';
+import "./Zakladki.css";
 
 export const ZakladkiContext = React.createContext([[], () => {}]);
 
-const Zakladki = () => {
+const Zakladki: React.FC = () => {
   const [aktualnaZakladka, setAktualnaZakladka] = useState(0);
   const [zakladki, setZakladki] = useState([<Poczekalnia nazwa="Poczekalnia" />]);
 
@@ -15,22 +15,22 @@ const Zakladki = () => {
   // to powracać do poczekalni? a może zawsze powrót do ostatniego pokoju?
   useEffect(() => {
     const ostatniaZakladka = zakladki.length - 1;
-    setAktualnaZakladka(ostatniaZakladka);    
-  }, [zakladki])
+    setAktualnaZakladka(ostatniaZakladka);
+  }, [zakladki]);
 
-  const handleMenuClick = (index) => {
+  const handleMenuClick = (index: number) => {
     setAktualnaZakladka(index);
-  }
+  };
 
   return (
     <ZakladkiContext.Provider value={[zakladki, setZakladki]}>
       <div className="zakladki">
         <ul className="zakladki_menu">
           {React.Children.map(zakladki, (item, index) => (
-            <ElementMenu 
+            <ElementMenu
               key={index}
-              index={index} 
-              nazwa={item.props.nazwa} 
+              index={index}
+              nazwa={item.props.nazwa}
               onClick={handleMenuClick}
             />
           ))}
@@ -38,7 +38,7 @@ const Zakladki = () => {
         {React.Children.toArray(zakladki)[aktualnaZakladka]}
       </div>
     </ZakladkiContext.Provider>
-  )
-}
+  );
+};
 
-export default Zakladki
+export default Zakladki;
