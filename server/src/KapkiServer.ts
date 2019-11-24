@@ -1,8 +1,9 @@
-import express, { Application } from 'express';
-import socketIo from 'socket.io';
-import { createServer, Server } from 'http';
+import express, { Application } from "express";
+import { createServer, Server } from "http";
+import socketIo, {Socket} from "socket.io";
 
-import { KiK } from './kik/kik'
+import { KiK } from "./kik/kik";
+import { IUzytkownik, Uzytkownik } from "./uzytkownik";
 
 export class KapkiServer {
   private static readonly PORT: number = 3001;
@@ -11,24 +12,46 @@ export class KapkiServer {
   private io: SocketIO.Server;
   private port: string | number;
 
+  private uzytkownicy: IUzytkownik[];
+
   constructor() {
     this.app = express();
     this.port = process.env.PORT || KapkiServer.PORT;
     this.server = createServer(this.app);
     this.io = socketIo(this.server);
     this.listen();
-  }
 
-  private listen() {
-    this.server.listen(this.port, () => {
-      console.log('Running server on port %s', this.port);
-    });
-
-    const kik = new KiK(this.io);
-    kik.addNamespace();
+    this.uzytkownicy = [];
   }
 
   public getApp(): Application {
     return this.app;
+  }
+
+  private listen() {
+    this.server.listen(this.port, () => {
+      console.log("Running server on port %s", this.port);
+    });
+
+    this.io.of("/users").on("connect", (socket: Socket) => {
+      console.log("/users connected: ", socket.id);
+      // this.uzytkownicy.push(new Uzytkownik(socket.id, ))
+
+      socket.on("init", (uuid: string) => {
+        const uzytkownik = this.uzytkownicy.find((u) => u.id === uuid);
+        if (uzytkownik) {
+          uzytkownik.socketId = socket.id;
+        } else {
+          this.uzytkownicy.push(new Uzytkownik(uuid, socket.id));
+        }
+      });
+
+      socket.on("disconnect", () => {
+        console.log(`/users  ${socket.id} disconnected`);
+      });      
+    });
+
+    // const kik = new KiK(this.io);
+    // kik.addNamespace();
   }
 }

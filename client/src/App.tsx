@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import socketIOClient from "socket.io-client";
 
 import Home from "./components/Home/Home";
 import KolkoIKrzyzyk from "./components/KolkoIKrzyzyk/KolkoIKrzyzyk";
@@ -11,11 +12,17 @@ import { getUUIDv4 } from "./utils";
 import "./App.css";
 
 const App: React.FC = () => {
+  const ENDPOINT = "http://localhost:3001/users";
 
   useEffect(() => {
-    if (sessionStorage.getItem("uuid") === null) {
-      sessionStorage.setItem("uuid", getUUIDv4());
+    let uuid = sessionStorage.getItem("uuid");
+    if (uuid === null) {
+      uuid = getUUIDv4();
+      sessionStorage.setItem("uuid", uuid);
     }
+
+    const socketIO = socketIOClient(ENDPOINT);
+    socketIO.emit("init", uuid);
   }, []);
 
   return (

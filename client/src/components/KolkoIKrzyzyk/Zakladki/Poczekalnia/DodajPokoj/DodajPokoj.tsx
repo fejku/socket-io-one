@@ -11,9 +11,9 @@ const DodajPokoj = () => {
   const [nazwaPokoju, setNazwaPokoju] = useState("");
 
   const handleDodajPokoj = () => {
-    socket.emit("create room", nazwaPokoju, (pokoj) => {
-      setZakladki([...zakladki, <Gra nazwa={pokoj._nazwa} pokoj={pokoj} />]);
-    });
+    // socket.emit("create room", nazwaPokoju, (pokoj) => {
+    //   setZakladki([...zakladki, <Gra nazwa={pokoj._nazwa} pokoj={pokoj} />]);
+    // });
     setNazwaPokoju("");
   };
 

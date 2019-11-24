@@ -23,9 +23,9 @@ const Zakladki: React.FC = () => {
   };
 
   return (
-    <ZakladkiContext.Provider value={[zakladki, setZakladki]}>
+    // <ZakladkiContext.Provider value={[zakladki, setZakladki]}>
       <div className="zakladki">
-        <ul className="zakladki_menu">
+        {/* <ul className="zakladki_menu">
           {React.Children.map(zakladki, (item, index) => (
             <ElementMenu
               key={index}
@@ -35,9 +35,9 @@ const Zakladki: React.FC = () => {
             />
           ))}
         </ul>
-        {React.Children.toArray(zakladki)[aktualnaZakladka]}
+        {React.Children.toArray(zakladki)[aktualnaZakladka]} */}
       </div>
-    </ZakladkiContext.Provider>
+    // </ZakladkiContext.Provider>
   );
 };
 

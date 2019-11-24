@@ -11,7 +11,7 @@ export class Gra {
   constructor(private gracz: string) {   
     this._aktywnyGracz = 0;
     this._plansza = [-1, -1, -1, -1, -1, -1, -1, -1, -1];
-    this._gracze = [new Gracz(gracz)];
+    // this._gracze = [new Gracz(gracz)];
   }
 
   public wylosujKolejnosc(): void {
