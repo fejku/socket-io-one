@@ -12,9 +12,8 @@ const KolkoIKrzyzyk = () => {
 
   useEffect(() => {
     const socketIO = socketIOClient(ENDPOINT);
-console.log('connected kik');
+
     socketIO.on("connect", () => {
-      console.log('connected3 kik');
       setSocket(socketIO);
     });
   }, []);

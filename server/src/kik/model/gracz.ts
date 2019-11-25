@@ -1,20 +1,24 @@
+import { IUzytkownik } from '../../uzytkownicy/model/Uzytkownik';
+
 export class Gracz {
-  private _ready: boolean;
+  private _uzytkownik: IUzytkownik;
+  private _gotowy: boolean;
 
-  constructor(private _id: string, private _socketId: string, private  ready?: boolean) {
-    this._ready = ready ? true : false;
-  }  
+  constructor(uzytkownik: IUzytkownik, gotowy?: boolean) {
+    this._uzytkownik = uzytkownik;
+    this._gotowy = gotowy ? true : false;
+  }
 
-  public get id(): string {
-    return this._id;
+  public get uzytkownik(): IUzytkownik {
+    return this._uzytkownik;
   }
-  public set id(value: string) {
-    this._id = value;
+  public set uzytkownik(value: IUzytkownik) {
+    this._uzytkownik = value;
   }
-  public get ready(): boolean {
-    return this._ready;
+  public get gotowy(): boolean {
+    return this._gotowy;
   }
-  public set ready(value: boolean) {
-    this._ready = value;
+  public set gotowy(value: boolean) {
+    this._gotowy = value;
   }
 }

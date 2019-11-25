@@ -4,6 +4,10 @@ import { ZakladkiContext } from "../../Zakladki";
 
 import Gra from "../../Gra/Gra";
 
+interface IDodajPokojParam {
+  nazwa: string;
+}
+
 const DodajPokoj = () => {
   const socket = useContext(SocketContext);
   const [zakladki, setZakladki] = useContext(ZakladkiContext);
@@ -11,9 +15,12 @@ const DodajPokoj = () => {
   const [nazwaPokoju, setNazwaPokoju] = useState("");
 
   const handleDodajPokoj = () => {
-    // socket.emit("create room", nazwaPokoju, (pokoj) => {
-    //   setZakladki([...zakladki, <Gra nazwa={pokoj._nazwa} pokoj={pokoj} />]);
-    // });
+    if (socket) {
+      socket.emit("create room", nazwaPokoju, (pokoj) => {
+        socket.emit("join room", pokoj.id);
+        //   setZakladki([...zakladki, <Gra nazwa={pokoj._nazwa} pokoj={pokoj} />]);
+        });
+    }
     setNazwaPokoju("");
   };
 

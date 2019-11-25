@@ -1,5 +1,5 @@
 import { Gracz } from "../model";
-import { KiK } from "../kik";
+import { KiKSocket } from "../KiKSocket";
 
 export class Gra {
   public static readonly MAX_ILOSC_GRACZY = 2;
@@ -7,11 +7,13 @@ export class Gra {
   private _gracze: Gracz[];
   private _aktywnyGracz: number;
   private _plansza: number[];
-  
-  constructor(private gracz: string) {   
+  private _gracz: string;
+
+  constructor(gracz: string) {
     this._aktywnyGracz = 0;
     this._plansza = [-1, -1, -1, -1, -1, -1, -1, -1, -1];
-    // this._gracze = [new Gracz(gracz)];
+    this._gracze = [];
+    this._gracz = "";
   }
 
   public wylosujKolejnosc(): void {
@@ -19,11 +21,11 @@ export class Gra {
       const pom = this._gracze[0];
       this._gracze[0] = this._gracze[1];
       this._gracze[1] = pom;
-    };
+    }
   }
 
   public dolaczGracza(graczId: string): boolean {
-    if(this._gracze.length >= Gra.MAX_ILOSC_GRACZY) {
+    if (this._gracze.length >= Gra.MAX_ILOSC_GRACZY) {
       return false;
     }
 
@@ -56,7 +58,7 @@ export class Gra {
   }
 
   private czyWygranaPionPoziom(): boolean {
-    for (let i = 0; i < 3; i++) {      
+    for (let i = 0; i < 3; i++) {
       let wygranaPion = true;
       let wygranaPoziom = true;
       for (let j = 0; j < 3; j++) {
@@ -65,12 +67,12 @@ export class Gra {
         }
         if (this.plansza[i * 3 + j] !== this.aktywnyGracz) {
           wygranaPoziom = false;
-        }        
+        }
       }
-  
+
       if (wygranaPion || wygranaPoziom) {
         return true;
-      }      
+      }
     }
     return false;
   }

@@ -13,8 +13,8 @@ export class Pokoje {
     return this.listaPokoi.find(pokoj => pokoj.id === id);
   }
 
-  public nowyPokoj(nazwa: string, graczId: string): Pokoj {
-    const pokoj = new Pokoj(this.aktualneId++, nazwa, graczId);
+  public nowyPokoj(nazwa: string): Pokoj {
+    const pokoj = new Pokoj(this.aktualneId++, nazwa);
     this.listaPokoi.push(pokoj);
     return pokoj;
   }

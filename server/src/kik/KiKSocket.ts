@@ -1,17 +1,17 @@
-import { Server, Namespace, Socket } from 'socket.io';
+import { Namespace, Server, Socket } from "socket.io";
 
-import { SocketEvent } from './constants';
-import { Pokoj, Gracz } from './model';
-import { Pokoje } from './pokoje';
+import { SocketEvent } from "./constants";
+import { Pokoj } from "./model";
+import { Pokoje } from "./pokoje";
 
-export class KiK {
-  private static readonly NAMESPACE: string = '/kik';
-  
+export class KiKSocket {
+  private static readonly NAMESPACE: string = "/kik";
+
   private namespace: Namespace;
   private pokoje: Pokoje;
-  
+
   constructor(io: Server) {
-    this.namespace = io.of(KiK.NAMESPACE);
+    this.namespace = io.of(KiKSocket.NAMESPACE);
     this.pokoje = new Pokoje();
   }
 
@@ -24,7 +24,7 @@ export class KiK {
       });
 
       socket.on(SocketEvent.CREATE_ROOM, (nazwaPokoju: string, response: (pokoj: Pokoj) => {}) => {
-        const pokoj = this.pokoje.nowyPokoj(nazwaPokoju, socket.id);
+        const pokoj = this.pokoje.nowyPokoj(nazwaPokoju);
         socket.join(pokoj.id.toString());
         this.namespace.emit(SocketEvent.REFRESH_ROOMS, this.pokoje.listaPokoi);
         response(pokoj);
