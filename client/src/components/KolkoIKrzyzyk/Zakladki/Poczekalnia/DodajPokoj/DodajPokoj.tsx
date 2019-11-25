@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import { SocketContext } from "../../../KolkoIKrzyzyk";
 import { ZakladkiContext } from "../../Zakladki";
 
+import { IPokoj } from "model/Pokoj";
+
 import Gra from "../../Gra/Gra";
 
 interface IDodajPokojParam {
@@ -16,7 +18,7 @@ const DodajPokoj = () => {
 
   const handleDodajPokoj = () => {
     if (socket) {
-      socket.emit("create room", nazwaPokoju, (pokoj) => {
+      socket.emit("create room", nazwaPokoju, (pokoj: IPokoj) => {
         socket.emit("join room", pokoj.id);
         //   setZakladki([...zakladki, <Gra nazwa={pokoj._nazwa} pokoj={pokoj} />]);
         });

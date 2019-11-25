@@ -1,8 +1,4 @@
-export interface IUzytkownik {
-  id: string; // UUID
-  socketId: string;
-  nazwa: string;
-}
+import { IUzytkownik } from "model";
 
 export class Uzytkownik implements IUzytkownik {
   private _id: string;

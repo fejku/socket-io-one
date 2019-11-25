@@ -1,2 +1,2 @@
-export { Pokoj } from './pokoj';
-export { Gracz } from './gracz';
+export { Pokoj } from './Pokoj';
+export { Gracz } from './Gracz';

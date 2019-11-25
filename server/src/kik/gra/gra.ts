@@ -1,19 +1,17 @@
+import { IGra, IGracz, IUzytkownik } from "model";
 import { Gracz } from "../model";
-import { KiKSocket } from "../KiKSocket";
 
-export class Gra {
+export class Gra implements IGra {
   public static readonly MAX_ILOSC_GRACZY = 2;
 
-  private _gracze: Gracz[];
+  private _gracze: IGracz[];
   private _aktywnyGracz: number;
   private _plansza: number[];
-  private _gracz: string;
 
-  constructor(gracz: string) {
+  constructor() {
     this._aktywnyGracz = 0;
     this._plansza = [-1, -1, -1, -1, -1, -1, -1, -1, -1];
     this._gracze = [];
-    this._gracz = "";
   }
 
   public wylosujKolejnosc(): void {
@@ -24,21 +22,21 @@ export class Gra {
     }
   }
 
-  public dolaczGracza(graczId: string): boolean {
+  public dolaczGracza(uzytkownik: IUzytkownik): boolean {
     if (this._gracze.length >= Gra.MAX_ILOSC_GRACZY) {
       return false;
     }
 
-    const gracz = new Gracz(graczId);
+    const gracz = new Gracz(uzytkownik);
     this._gracze.push(gracz);
     return true;
   }
 
-  public aktualnyGracz(): Gracz {
+  public aktualnyGracz(): IGracz {
     return this._gracze[this.aktywnyGracz];
   }
 
-  public nieaktywnyGracz(): Gracz {
+  public nieaktywnyGracz(): IGracz {
     const idGracza = this.aktywnyGracz === 0 ? 1 : 0;
     return this._gracze[idGracza];
   }
@@ -55,6 +53,29 @@ export class Gra {
 
   public ruch(poleId: number): void {
     this.plansza[poleId] = this.aktywnyGracz;
+  }
+
+  public czyWygrana(): boolean {
+    return this.czyWygranaPionPoziom() || this.czyWygranaSkos();
+  }
+
+  public czyRemis(): boolean {
+    for(const pole of this.plansza) {
+      if (pole === -1) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public koniecGry(): void {
+    for(const gracz of this._gracze) {
+      gracz.gotowy = false;
+    }
+  }
+
+  public ustawAktywnoscGracza(socketId: string, ready: boolean): void {
+    this._gracze.find(gracz => gracz.socketId = socketId).ready = true;
   }
 
   private czyWygranaPionPoziom(): boolean {
@@ -85,31 +106,14 @@ export class Gra {
       return true;
     }
     return false;    
-  }
+  }  
 
-  public czyWygrana(): boolean {
-    return this.czyWygranaPionPoziom() || this.czyWygranaSkos();
+  public get gracze(): IGracz[] {
+    return this._gracze;
   }
-
-  public czyRemis(): boolean {
-    for(const pole of this.plansza) {
-      if (pole === -1) {
-        return false
-      }
-    }
-    return true;
+  public set gracze(value: IGracz[]) {
+    this._gracze = value;
   }
-
-  public koniecGry(): void {
-    for(const gracz of this._gracze) {
-      gracz.ready = false;
-    }
-  }
-
-  public ustawAktywnoscGracza(socketId: string, ready: boolean): void {
-    this._gracze.find(gracz => gracz.socketId = socketId).ready = true;
-  }
-
   public get plansza(): number[] {
     return this._plansza;
   }

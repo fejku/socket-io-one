@@ -1,9 +1,8 @@
 import express, { Application } from "express";
 import { createServer, Server } from "http";
-import socketIo, {Socket} from "socket.io";
+import socketIo from "socket.io";
 
 import { KiKSocket } from "./kik/KiKSocket";
-import { IUzytkownik, Uzytkownik } from "./uzytkownicy/model/Uzytkownik";
 import { UzytkownikSocket } from "./uzytkownicy/UzytkownikSocket";
 
 export class KapkiServer {
@@ -33,7 +32,7 @@ export class KapkiServer {
     const uzytkownikSocket = new UzytkownikSocket(this.io);
     uzytkownikSocket.dodajNamespace();
 
-    // const kikSocket = new KiKSocket(this.io);
-    // kikSocket.addNamespace();
+    const kikSocket = new KiKSocket(this.io, uzytkownikSocket.uzytkownicy);
+    kikSocket.addNamespace();
   }
 }

@@ -1,7 +1,7 @@
-import { Gracz } from ".";
-import { Gra } from "../gra/gra";
+import { IPokoj } from "model";
+import { Gra } from "../gra/Gra";
 
-export class Pokoj {
+export class Pokoj implements IPokoj {
   private _id: number;
   private _nazwa: string;
   private _gra: Gra;
