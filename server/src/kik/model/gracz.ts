@@ -1,4 +1,5 @@
-import { IGracz, IUzytkownik } from "model";
+import { IGracz } from "./../../model/Gracz";
+import { IUzytkownik } from "./../../model/Uzytkownik";
 
 export class Gracz implements IGracz {
   private _uzytkownik: IUzytkownik;

@@ -6,11 +6,7 @@ import Pokoje from "./Pokoje/Pokoje";
 import DodajPokoj from "./DodajPokoj/DodajPokoj";
 import "./Poczekalnia.css";
 
-interface IPoczekalnia {
-  nazwa: string;
-}
-
-const Poczekalnia: React.FC<IPoczekalnia> = () => {
+const Poczekalnia: React.FC = () => {
   const socket = useContext(SocketContext);
 
   return (

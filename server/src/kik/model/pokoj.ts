@@ -1,4 +1,4 @@
-import { IPokoj } from "model";
+import { IPokoj } from "./../../model/Pokoj";
 import { Gra } from "../gra/Gra";
 
 export class Pokoj implements IPokoj {

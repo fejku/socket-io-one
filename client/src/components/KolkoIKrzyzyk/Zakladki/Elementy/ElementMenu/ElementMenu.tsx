@@ -1,17 +1,19 @@
 import React from "react";
 
+import { IPokoj } from "./../../../../../model/Pokoj";
+
 interface IElementMenuProps {
   index: number;
-  nazwa: string;
+  pokoj: IPokoj;
   onClick: (index: number) => void;
  }
 
-const ElementMenu: React.FC<IElementMenuProps> = ({ index, nazwa, onClick }) => {
+const ElementMenu: React.FC<IElementMenuProps> = ({ index, pokoj, onClick }) => {
   const handleClick = () => {
     onClick(index);
   };
 
-  return <li onClick={handleClick}>{nazwa}</li>;
+  return <li onClick={handleClick}>{pokoj.nazwa}</li>;
 };
 
 export default ElementMenu;

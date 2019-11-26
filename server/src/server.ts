@@ -1,4 +1,4 @@
-import { KapkiServer } from './KapkiServer';
+import { KapkiServer } from "./KapkiServer";
 
 const app = new KapkiServer().getApp();
 

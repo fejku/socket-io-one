@@ -1,5 +1,5 @@
+import { IUzytkownik } from "./../model/Uzytkownik";
 import { Pokoj } from "./model";
-import { IUzytkownik } from "model";
 
 export class Pokoje {
   private _aktualneId: number;
@@ -26,6 +26,12 @@ export class Pokoje {
       return pokoj.gra.dolaczGracza(uzytkownik);
     }
     return false;
+  }
+
+  public dajPokoje(socketId: string) {
+    return this.listaPokoi.filter(
+      (p) => p.gra.gracze.some(
+        (g) => g.uzytkownik.socketId === socketId));
   }
 
   public get listaPokoi(): Pokoj[] {

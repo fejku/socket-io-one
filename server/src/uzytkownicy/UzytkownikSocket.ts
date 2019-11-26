@@ -1,6 +1,6 @@
 import { Namespace, Server, Socket } from "socket.io";
 
-import { SocketEvent, UzytkownikSocketEvent } from "model";
+import { SocketEvent, UzytkownikSocketEvent } from "./../model/SocketEvent";
 import { Uzytkownicy } from "./Uzytkownicy";
 
 export class UzytkownikSocket {

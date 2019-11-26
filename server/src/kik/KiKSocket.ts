@@ -1,9 +1,10 @@
 import { Namespace, Server, Socket } from "socket.io";
 
-import { KikRoomSocketEvent, KikSocketEvent, SocketEvent, IUzytkownik } from "model";
+import { KikRoomSocketEvent, KikSocketEvent, SocketEvent } from "./../model/SocketEvent";
+
+import { Uzytkownicy } from "../uzytkownicy/Uzytkownicy";
 import { Pokoj } from "./model";
 import { Pokoje } from "./Pokoje";
-import { Uzytkownicy } from "../uzytkownicy/Uzytkownicy";
 
 export class KiKSocket {
   private static readonly NAMESPACE: string = "/kik";
@@ -24,6 +25,10 @@ export class KiKSocket {
 
       socket.on(KikRoomSocketEvent.GET_ROOMS, (response: (pokoje: Pokoj[]) => void) => {
         response(this.pokoje.listaPokoi);
+      });
+
+      socket.on(KikRoomSocketEvent.GET_MY_ROOMS, (response: (pokoje: Pokoj[]) => void) => {
+        response(this.pokoje.dajPokoje(socket.id));
       });
 
       socket.on(KikRoomSocketEvent.CREATE_ROOM, (nazwaPokoju: string, response: (pokoj: Pokoj) => {}) => {
@@ -49,28 +54,34 @@ export class KiKSocket {
           if (pokoj.gra.czyWszyscyGracze()) {
             const gra = pokoj.gra;
             gra.wylosujKolejnosc();
-            this.namespace.to(gra.aktualnyGracz().id.toString()).emit(KikSocketEvent.MY_TURN, gra.plansza, gra.aktywnyGracz);
-            this.namespace.to(gra.nieaktywnyGracz().id.toString()).emit(KikSocketEvent.OPPONENT_TURN, gra.plansza);
+            this.namespace.to(gra.aktualnyGracz().uzytkownik.socketId.toString())
+              .emit(KikSocketEvent.MY_TURN, gra.plansza, gra.aktywnyGracz);
+            this.namespace.to(gra.nieaktywnyGracz().uzytkownik.socketId.toString())
+              .emit(KikSocketEvent.OPPONENT_TURN, gra.plansza);
           }
         }
       });
 
-      socket.on(KikSocketEvent.MOVE, (pokojId:number, poleId: number) => {
+      socket.on(KikSocketEvent.MOVE, (pokojId: number, poleId: number) => {
         const pokoj = this.pokoje.dajPokoj(pokojId);
         if (pokoj) {
           const gra = pokoj.gra;
           gra.ruch(poleId);
           if (pokoj.gra.czyWygrana()) {
             gra.koniecGry();
-            this.namespace.to(gra.aktualnyGracz().id.toString()).emit(KikSocketEvent.END, gra.plansza, 'win');
-            this.namespace.to(gra.nieaktywnyGracz().id.toString()).emit(KikSocketEvent.END, gra.plansza, 'lose');  
+            this.namespace.to(gra.aktualnyGracz().uzytkownik.socketId.toString())
+              .emit(KikSocketEvent.END, gra.plansza, "win");
+            this.namespace.to(gra.nieaktywnyGracz().uzytkownik.socketId.toString())
+              .emit(KikSocketEvent.END, gra.plansza, "lose");
           } else if (pokoj.gra.czyRemis()) {
             gra.koniecGry();
-            this.namespace.to(poleId.toString()).emit(KikSocketEvent.END, gra.plansza, 'tie');  
+            this.namespace.to(poleId.toString()).emit(KikSocketEvent.END, gra.plansza, "tie");
           } else {
             gra.nastepnyGracz();
-            this.namespace.to(gra.aktualnyGracz().id.toString()).emit(KikSocketEvent.MY_TURN, gra.plansza, gra.aktywnyGracz);
-            this.namespace.to(gra.nieaktywnyGracz().id.toString()).emit(KikSocketEvent.OPPONENT_TURN, gra.plansza);
+            this.namespace.to(gra.aktualnyGracz().uzytkownik.socketId.toString())
+              .emit(KikSocketEvent.MY_TURN, gra.plansza, gra.aktywnyGracz);
+            this.namespace.to(gra.nieaktywnyGracz().uzytkownik.socketId.toString())
+              .emit(KikSocketEvent.OPPONENT_TURN, gra.plansza);
           }
         }
       });

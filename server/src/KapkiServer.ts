@@ -1,3 +1,4 @@
+import cors from "cors";
 import express, { Application } from "express";
 import { createServer, Server } from "http";
 import socketIo from "socket.io";
@@ -14,6 +15,7 @@ export class KapkiServer {
 
   constructor() {
     this.app = express();
+    this.app.use(cors());
     this.port = process.env.PORT || KapkiServer.PORT;
     this.server = createServer(this.app);
     this.io = socketIo(this.server);

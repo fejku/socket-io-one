@@ -1,4 +1,6 @@
-import { IGra, IGracz, IUzytkownik } from "model";
+import { IGra } from "./../../model/Gra";
+import { IGracz } from "./../../model/Gracz";
+import { IUzytkownik } from "./../../model/Uzytkownik";
 import { Gracz } from "../model";
 
 export class Gra implements IGra {
@@ -60,7 +62,7 @@ export class Gra implements IGra {
   }
 
   public czyRemis(): boolean {
-    for(const pole of this.plansza) {
+    for (const pole of this.plansza) {
       if (pole === -1) {
         return false;
       }
@@ -68,14 +70,17 @@ export class Gra implements IGra {
     return true;
   }
 
-  public koniecGry(): void {
-    for(const gracz of this._gracze) {
+  public koniecGry() {
+    for (const gracz of this._gracze) {
       gracz.gotowy = false;
     }
   }
 
-  public ustawAktywnoscGracza(socketId: string, ready: boolean): void {
-    this._gracze.find(gracz => gracz.socketId = socketId).ready = true;
+  public ustawAktywnoscGracza(socketId: string, gotowy: boolean) {
+    const gracz = this._gracze.find((g) => g.uzytkownik.socketId = socketId);
+    if (gracz) {
+      gracz.gotowy = gotowy;
+    }
   }
 
   private czyWygranaPionPoziom(): boolean {
@@ -99,14 +104,18 @@ export class Gra implements IGra {
   }
 
   private czyWygranaSkos(): boolean {
-    if ((this.plansza[0] === this.aktywnyGracz) && (this.plansza[4] === this.aktywnyGracz) && (this.plansza[8] === this.aktywnyGracz)) {
+    if ((this.plansza[0] === this.aktywnyGracz)
+      && (this.plansza[4] === this.aktywnyGracz)
+      && (this.plansza[8] === this.aktywnyGracz)) {
       return true;
     }
-    if ((this.plansza[2] === this.aktywnyGracz) && (this.plansza[4] === this.aktywnyGracz) && (this.plansza[6] === this.aktywnyGracz)) {
+    if ((this.plansza[2] === this.aktywnyGracz)
+      && (this.plansza[4] === this.aktywnyGracz)
+      && (this.plansza[6] === this.aktywnyGracz)) {
       return true;
     }
-    return false;    
-  }  
+    return false;
+  }
 
   public get gracze(): IGracz[] {
     return this._gracze;
