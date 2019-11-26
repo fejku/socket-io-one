@@ -1,6 +1,6 @@
 import React from "react";
 
-import { IPokoj } from "./../../../../../model/Pokoj";
+import { IPokoj } from "../../../../../model/IPokoj";
 
 interface IElementMenuProps {
   index: number;

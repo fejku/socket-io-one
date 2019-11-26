@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import { SocketContext } from "../../KolkoIKrzyzyk";
 
-import { IPokoj } from "./../../../../model/Pokoj";
+import { IPokoj } from "../../../../model/IPokoj";
 
 import KoniecGryModal from "./KoniecGryModal";
 import Plansza from "./Plansza/Plansza";

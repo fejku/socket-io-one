@@ -1,6 +1,6 @@
-import { IGra } from "./../../model/Gra";
-import { IGracz } from "./../../model/Gracz";
-import { IUzytkownik } from "./../../model/Uzytkownik";
+import { IGra } from "./../../model/IGra";
+import { IGracz } from "./../../model/IGracz";
+import { IUzytkownik } from "./../../model/IUzytkownik";
 import { Gracz } from "../model";
 
 export class Gra implements IGra {
@@ -14,6 +14,16 @@ export class Gra implements IGra {
     this._aktywnyGracz = 0;
     this._plansza = [-1, -1, -1, -1, -1, -1, -1, -1, -1];
     this._gracze = [];
+  }
+
+  public dajDTO = () => {
+    const dto = {
+      aktywnyGracz: this.aktywnyGracz,
+      gracze: this.gracze.map((g) => g.dajDTO()),
+      plansza: this.plansza,
+    } as IGra;
+
+    return dto;
   }
 
   public wylosujKolejnosc(): void {

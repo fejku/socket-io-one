@@ -1,4 +1,4 @@
-import { IUzytkownik } from "./../model/Uzytkownik";
+import { IUzytkownik } from "./../model/IUzytkownik";
 import { Uzytkownik } from "./model/Uzytkownik";
 
 export class Uzytkownicy {

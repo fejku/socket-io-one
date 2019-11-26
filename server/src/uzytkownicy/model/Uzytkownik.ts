@@ -1,4 +1,4 @@
-import { IUzytkownik } from "./../../model/Uzytkownik";
+import { IUzytkownik } from "./../../model/IUzytkownik";
 
 export class Uzytkownik implements IUzytkownik {
   private _id: string;
@@ -9,6 +9,16 @@ export class Uzytkownik implements IUzytkownik {
     this._id = id;
     this._socketId = socketId;
     this._nazwa = nazwa ? nazwa : "";
+  }
+
+  public dajDTO() {
+    const dto = {
+      id: this.id,
+      nazwa: this.nazwa,
+      socketId: this.socketId,
+    } as IUzytkownik;
+
+    return dto;
   }
 
   public get id(): string {

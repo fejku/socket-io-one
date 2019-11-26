@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { SocketContext } from "./../../../KolkoIKrzyzyk";
 import { ZakladkiContext } from "./../../Zakladki";
 
-import { IPokoj } from "./../../../../../model/Pokoj";
+import { IPokoj } from "../../../../../model/IPokoj";
 
 interface IDodajPokojParam {
   nazwa: string;

@@ -1,5 +1,5 @@
-import { IPokoj } from "./../../model/Pokoj";
 import { Gra } from "../gra/Gra";
+import { IPokoj } from "./../../model/IPokoj";
 
 export class Pokoj implements IPokoj {
   private _id: number;
@@ -10,6 +10,16 @@ export class Pokoj implements IPokoj {
     this._id = id;
     this._nazwa = nazwa;
     this._gra = new Gra();
+  }
+
+  public dajDTO = () => {
+    const dto = {
+      gra: this.gra.dajDTO(),
+      id: this.id,
+      nazwa: this.nazwa,
+    } as IPokoj;
+
+    return dto;
   }
 
   public get id(): number {

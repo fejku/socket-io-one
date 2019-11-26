@@ -33,7 +33,7 @@ export class KiKSocket {
 
       socket.on(KikRoomSocketEvent.CREATE_ROOM, (nazwaPokoju: string, response: (pokoj: Pokoj) => {}) => {
         const pokoj = this.pokoje.nowyPokoj(nazwaPokoju);
-        this.namespace.emit(KikRoomSocketEvent.REFRESH_ROOMS, this.pokoje.listaPokoi);
+        this.namespace.emit(KikRoomSocketEvent.REFRESH_ROOMS, this.pokoje.listaPokoi.map((p) => p.dajDTO()));
         response(pokoj);
       });
 

@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 
-import { IPokoj } from "./../../../model/Pokoj";
+import { IPokoj } from "../../../model/IPokoj";
 import { KikRoomSocketEvent } from "./../../../model/SocketEvent";
 
 import ElementMenu from "./Elementy/ElementMenu/ElementMenu";
