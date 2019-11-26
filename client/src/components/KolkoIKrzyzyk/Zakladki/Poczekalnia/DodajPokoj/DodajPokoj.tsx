@@ -3,7 +3,8 @@ import React, { useContext, useState } from "react";
 import { SocketContext } from "./../../../KolkoIKrzyzyk";
 import { ZakladkiContext } from "./../../Zakladki";
 
-import { IPokoj } from "../../../../../model/IPokoj";
+import { IPokoj } from "./../../../../../model/IPokoj";
+import { KikRoomSocketEvent } from "./../../../../../model/SocketEvent";
 
 interface IDodajPokojParam {
   nazwa: string;
@@ -17,9 +18,9 @@ const DodajPokoj = () => {
 
   const handleDodajPokoj = () => {
     if (socket) {
-      socket.emit("create room", nazwaPokoju, (pokoj: IPokoj) => {
+      socket.emit(KikRoomSocketEvent.CREATE_ROOM, nazwaPokoju, (pokoj: IPokoj) => {
         setZakladki([...zakladki, pokoj]);
-        socket.emit("join room", pokoj.id);
+        socket.emit(KikRoomSocketEvent.JOIN_ROOM, pokoj.id);
       });
     }
     setNazwaPokoju("");

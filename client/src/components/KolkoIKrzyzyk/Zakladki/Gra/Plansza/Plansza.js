@@ -29,7 +29,7 @@ function Plansza({statusAktywny, planszaState: [plansza, setPlansza], aktywnyGra
       nowaPlansza[poleId] = aktywnyGracz;
       setPlansza(nowaPlansza);
 
-      socket.emit('move', pokoj._id, poleId);
+      socket.emit('move', pokoj.id, poleId);
     }    
   };
 

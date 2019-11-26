@@ -25,7 +25,7 @@ const Pokoje = () => {
     }
   }, [socket]); 
 
-  const listPokoi = pokoje.map(pokoj => <Pokoj key={pokoj._id} pokoj={pokoj} />);
+  const listPokoi = pokoje.map(pokoj => <Pokoj key={pokoj.id} pokoj={pokoj} />);
 
   return (
     <div className="pokoje">

@@ -42,7 +42,7 @@ export class KiKSocket {
         if (uzytkownik) {
           if (this.pokoje.dolaczDoPokoju(pokojId, uzytkownik)) {
             socket.join(pokojId.toString());
-            this.namespace.emit(KikRoomSocketEvent.REFRESH_ROOMS, this.pokoje.listaPokoi);
+            this.namespace.emit(KikRoomSocketEvent.REFRESH_ROOMS, this.pokoje.listaPokoi.map((p) => p.dajDTO()));
           }
         }
       });

@@ -11,25 +11,25 @@ import './Pokoj.css'
 const Pokoj = ({pokoj}) => {
   const socket = useContext(SocketContext);
   const [zakladki, setZakladki] = useContext(ZakladkiContext);
-
-  const iloscGraczy = pokoj._gra._gracze.length;
+console.log(pokoj);
+  const iloscGraczy = pokoj.gra.gracze.length;
   const czyPokojPelny = iloscGraczy === 2 ? '(Full)' : '';
-  const czyGraczWPokoju = pokoj._gra._gracze.includes(socket.id);
+  const czyGraczWPokoju = pokoj.gra.gracze.includes(socket.id);
   const napisIloscGraczy = iloscGraczy + '/2';
 
   const handleDolaczDoPokoju = () => {
-    socket.emit('join room', pokoj._id);
-    setZakladki([...zakladki, <Gra nazwa={pokoj._nazwa} pokoj={pokoj} />])
+    socket.emit('join room', pokoj.id);
+    setZakladki([...zakladki, <Gra nazwa={pokoj.nazwa} pokoj={pokoj} />])
   }; 
 
   return (
     <Zakladka>
-      <div className="pokoj" key={pokoj._id}>
+      <div className="pokoj" key={pokoj.id}>
         <div className="pokoj_name">
-          {pokoj._nazwa} - {napisIloscGraczy} {czyPokojPelny}
+          {pokoj.nazwa} - {napisIloscGraczy} {czyPokojPelny}
           {czyGraczWPokoju || czyPokojPelny ? null : <button onClick={handleDolaczDoPokoju}>Dołącz</button>}        
         </div>            
-        <Gracze gracze={pokoj._gra._gracze} />  
+        <Gracze gracze={pokoj.gra.gracze} />  
       </div>
     </Zakladka>
   )

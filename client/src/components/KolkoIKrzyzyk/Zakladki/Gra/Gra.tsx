@@ -3,7 +3,8 @@ import { useHistory } from "react-router-dom";
 
 import { SocketContext } from "../../KolkoIKrzyzyk";
 
-import { IPokoj } from "../../../../model/IPokoj";
+import { IPokoj } from "./../../../../model/IPokoj";
+import { KikSocketEvent } from "./../../../../model/SocketEvent";
 
 import KoniecGryModal from "./KoniecGryModal";
 import Plansza from "./Plansza/Plansza";
@@ -30,22 +31,22 @@ const Gra: React.FC<IGra> = ({pokoj}) => {
 
   useEffect(() => {
     if (socket) {
-      socket.emit("ready", pokoj.id);
+      socket.emit(KikSocketEvent.READY, pokoj.id);
 
-      socket.on("my turn", (plansza: number[], aktywnyGracz: number) => {
+      socket.on(KikSocketEvent.MY_TURN, (plansza: number[], aktywnyGracz: number) => {
         setStatusAktywny(true);
         setStatus("Moja tura");
         setPlansza(plansza);
         setAktywnyGracz(aktywnyGracz);
       });
 
-      socket.on("opponent turn", (plansza: number[]) => {
+      socket.on(KikSocketEvent.OPPONENT_TURN, (plansza: number[]) => {
         setStatusAktywny(false);
         setStatus("Tura przeciwnika");
         setPlansza(plansza);
       });
 
-      socket.on("end", (plansza: number[], result: string) => {
+      socket.on(KikSocketEvent.END, (plansza: number[], result: string) => {
         setStatusAktywny(false);
         setStatus(wynik(result));
         setPlansza(plansza);
@@ -56,10 +57,10 @@ const Gra: React.FC<IGra> = ({pokoj}) => {
 
     return () => {
       if (socket) {
-        socket.off("my turn");
-        socket.off("opponent turn");
+        socket.off(KikSocketEvent.MY_TURN);
+        socket.off(KikSocketEvent.OPPONENT_TURN);
       }
-    }
+    };
   }, [socket, pokoj]);
 
   const wynik = (result: string) => {
@@ -84,7 +85,7 @@ const Gra: React.FC<IGra> = ({pokoj}) => {
     setAktywnyGracz(0);
     setKomnunikatModalKoniecGry("");
     if (socket) {
-      socket.emit("ready", pokoj.id);
+      socket.emit(KikSocketEvent.READY, pokoj.id);
     }
   };
 
