@@ -46,7 +46,7 @@ const Zakladki: React.FC = () => {
   };
 
   const handleMenuClick = (index: number) => {
-    setAktualnaZakladka(index);
+    setAktualnaZakladka(index + 1);
   };
 
   return (

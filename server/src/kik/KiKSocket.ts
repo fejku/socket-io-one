@@ -3,7 +3,7 @@ import { Namespace, Server, Socket } from "socket.io";
 import { KikRoomSocketEvent, KikSocketEvent, SocketEvent } from "./../model/SocketEvent";
 
 import { Uzytkownicy } from "../uzytkownicy/Uzytkownicy";
-import { Pokoj } from "./model";
+import { IPokoj } from "./../model/IPokoj";
 import { Pokoje } from "./Pokoje";
 
 export class KiKSocket {
@@ -23,22 +23,22 @@ export class KiKSocket {
     this.namespace.on(SocketEvent.CONNECT, (socket: Socket) => {
       console.log(`Client ${socket.id} connected`);
 
-      socket.on(KikRoomSocketEvent.GET_ROOMS, (response: (pokoje: Pokoj[]) => void) => {
-        response(this.pokoje.listaPokoi);
+      socket.on(KikRoomSocketEvent.GET_ROOMS, (response: (pokoje: IPokoj[]) => void) => {
+        response(this.pokoje.listaPokoi.map((p) => p.dajDTO()));
       });
 
-      socket.on(KikRoomSocketEvent.GET_MY_ROOMS, (response: (pokoje: Pokoj[]) => void) => {
-        response(this.pokoje.dajPokoje(socket.id));
+      socket.on(KikRoomSocketEvent.GET_MY_ROOMS, (response: (pokoje: IPokoj[]) => void) => {
+        response(this.pokoje.dajPokoje(socket.id).map((p) => p.dajDTO()));
       });
 
-      socket.on(KikRoomSocketEvent.CREATE_ROOM, (nazwaPokoju: string, response: (pokoj: Pokoj) => {}) => {
+      socket.on(KikRoomSocketEvent.CREATE_ROOM, (nazwaPokoju: string, response: (pokoj: IPokoj) => {}) => {
         const pokoj = this.pokoje.nowyPokoj(nazwaPokoju);
         this.namespace.emit(KikRoomSocketEvent.REFRESH_ROOMS, this.pokoje.listaPokoi.map((p) => p.dajDTO()));
-        response(pokoj);
+        response(pokoj.dajDTO());
       });
 
       socket.on(KikRoomSocketEvent.JOIN_ROOM, (pokojId: number) => {
-        const uzytkownik = this.uzytkownicy.dajUzytkownikaSocketid(socket.id);
+        const uzytkownik = this.uzytkownicy.dajUzytkownikaSocketId(socket.id);
         if (uzytkownik) {
           if (this.pokoje.dolaczDoPokoju(pokojId, uzytkownik)) {
             socket.join(pokojId.toString());

@@ -9,10 +9,12 @@ import "./Poczekalnia.css";
 const Poczekalnia: React.FC = () => {
   const socket = useContext(SocketContext);
 
+  const nazwa = sessionStorage.getItem("nazwa uzytkownika");
+
   return (
     <Zakladka>
       <div className="poczekalnia">
-        <p>Socket id: {socket && socket.id}</p>
+        <p>Użytkownik {nazwa} Socket id: {socket && socket.id} </p>
         <DodajPokoj />
         <hr/>
         <Pokoje />

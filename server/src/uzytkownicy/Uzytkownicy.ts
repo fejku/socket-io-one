@@ -12,12 +12,16 @@ export class Uzytkownicy {
     return this.listaUzytkownikow.find((u) => u.id === uuid);
   }
 
-  public dajUzytkownikaSocketid(socketId: string) {
-    return this.listaUzytkownikow.find((u) => u.socketId === socketId);
+  public dajUzytkownikaSocketId(socketId: string) {
+    return this.listaUzytkownikow.find((u) => this.porownajSocketId(u.socketId, socketId));
   }
 
   public dodajUzytkownika(uuid: string, socketId: string) {
     this.listaUzytkownikow.push(new Uzytkownik(uuid, socketId));
+  }
+
+  private porownajSocketId(socketId1: string, socketId2: string) {
+    return socketId1.split("#")[1] === socketId2.split("#")[1];
   }
 
   public get listaUzytkownikow(): IUzytkownik[] {

@@ -10,7 +10,7 @@ interface IDodajPokojParam {
   nazwa: string;
 }
 
-const DodajPokoj = () => {
+const DodajPokoj: React.FC = () => {
   const socket = useContext(SocketContext);
   const [zakladki, setZakladki] = useContext(ZakladkiContext);
 
@@ -19,8 +19,8 @@ const DodajPokoj = () => {
   const handleDodajPokoj = () => {
     if (socket) {
       socket.emit(KikRoomSocketEvent.CREATE_ROOM, nazwaPokoju, (pokoj: IPokoj) => {
-        setZakladki([...zakladki, pokoj]);
         socket.emit(KikRoomSocketEvent.JOIN_ROOM, pokoj.id);
+        setZakladki([...zakladki, pokoj]);
       });
     }
     setNazwaPokoju("");

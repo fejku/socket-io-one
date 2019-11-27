@@ -1,12 +1,12 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 
-interface INazwaRoute {
+interface INazwaRouteProps {
   exact: boolean;
   path: string;
 }
 
-const NazwaRoute: React.FC<INazwaRoute> = ({ children, ...rest }) => {
+const NazwaRoute: React.FC<INazwaRouteProps> = ({ children, ...rest }) => {
   const nazwa = sessionStorage.getItem("nazwa uzytkownika");
 
   return (

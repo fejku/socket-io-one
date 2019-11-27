@@ -5,7 +5,7 @@ import Zakladki from "./Zakladki/Zakladki";
 
 export const SocketContext = React.createContext<SocketIOClient.Socket | null>(null);
 
-const KolkoIKrzyzyk = () => {
+const KolkoIKrzyzyk: React.FC = () => {
   const ENDPOINT = "http://localhost:3001/kik";
 
   const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
