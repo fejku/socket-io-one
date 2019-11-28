@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { UzytkownikSocketContext } from "../App";
+import { UzytkownikSocketEvent } from "../model/SocketEvent";
 
 const Nazwa: React.FC = () => {
+  const socket = useContext(UzytkownikSocketContext);
   const history = useHistory();
   const location = useLocation();
   const [nazwa, setNazwa] = useState("");
@@ -14,6 +17,9 @@ const Nazwa: React.FC = () => {
 
   const handleUstawNazwe = () => {
     sessionStorage.setItem("nazwa uzytkownika", nazwa);
+    if (socket) {
+      socket.emit(UzytkownikSocketEvent.USTAW_NAZWE, nazwa);
+    }
     history.replace(from);
   };
 

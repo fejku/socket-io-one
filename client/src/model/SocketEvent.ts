@@ -5,6 +5,7 @@ export enum SocketEvent {
 
 export enum UzytkownikSocketEvent {
   INIT = "init",
+  USTAW_NAZWE = "ustaw nazwe",
 }
 
 export enum KikSocketEvent {

@@ -7,14 +7,14 @@ import ElementMenu from "./Elementy/ElementMenu/ElementMenu";
 import Gra from "./Gra/Gra";
 import Poczekalnia from "./Poczekalnia/Poczekalnia";
 
-import { SocketContext } from "../KolkoIKrzyzyk";
+import { KikSocketContext } from "../KolkoIKrzyzyk";
 
 import "./Zakladki.css";
 
 export const ZakladkiContext = React.createContext<[IPokoj[], Dispatch<SetStateAction<IPokoj[]>>]>([[], () => {}]);
 
 const Zakladki: React.FC = () => {
-  const socket = useContext(SocketContext);
+  const socket = useContext(KikSocketContext);
 
   const [aktualnaZakladka, setAktualnaZakladka] = useState(0);
   const [zakladki, setZakladki] = useState<IPokoj[]>([]);

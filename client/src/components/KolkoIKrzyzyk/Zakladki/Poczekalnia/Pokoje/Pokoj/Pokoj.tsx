@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import Gra from "./../../../Gra/Gra";
 import Zakladka from "./../../../Zakladka/Zakladka";
 import Gracze from "./Gracze/Gracze";
 
-import { SocketContext } from "./../../../../KolkoIKrzyzyk";
+import { KikSocketContext } from "./../../../../KolkoIKrzyzyk";
 import { ZakladkiContext } from "./../../../Zakladki";
 
+import { dajSocketId } from "../../../../../../utils";
 import { IPokoj } from "./../../../../../../model/IPokoj";
 
 import "./Pokoj.css";
@@ -15,7 +15,7 @@ interface IPokojProps {
 }
 
 const Pokoj: React.FC<IPokojProps> = ({ pokoj }) => {
-  const socket = useContext(SocketContext);
+  const socket = useContext(KikSocketContext);
   const [zakladki, setZakladki] = useContext(ZakladkiContext);
 
   const iloscGraczy = pokoj.gra.gracze.length;
@@ -25,7 +25,7 @@ const Pokoj: React.FC<IPokojProps> = ({ pokoj }) => {
   const czyGraczWPokoju = () => {
     if (socket) {
       for (const gracz of pokoj.gra.gracze) {
-        if (gracz.uzytkownik.socketId === socket.id) {
+        if (gracz.uzytkownik.socketId === dajSocketId(socket.id)) {
           return true;
         }
       }

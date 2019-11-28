@@ -3,6 +3,8 @@ import { Namespace, Server, Socket } from "socket.io";
 import { SocketEvent, UzytkownikSocketEvent } from "./../model/SocketEvent";
 import { Uzytkownicy } from "./Uzytkownicy";
 
+import { dajSocketId } from "../utils";
+
 export class UzytkownikSocket {
   private static readonly NAMESPACE = "/users";
 
@@ -20,10 +22,18 @@ export class UzytkownikSocket {
 
       socket.on(UzytkownikSocketEvent.INIT, (uuid: string) => {
         const uzytkownik = this.uzytkownicy.dajUzytkownikaUuid(uuid);
+        const socketId = dajSocketId(socket.id);
         if (uzytkownik) {
-          uzytkownik.socketId = socket.id;
+          uzytkownik.socketId = socketId;
         } else {
-          this.uzytkownicy.dodajUzytkownika(uuid, socket.id);
+          this.uzytkownicy.dodajUzytkownika(uuid, socketId);
+        }
+      });
+
+      socket.on(UzytkownikSocketEvent.USTAW_NAZWE, (nazwa: string) => {
+        const uzytkownik = this.uzytkownicy.dajUzytkownikaSocketId(dajSocketId(socket.id));
+        if (uzytkownik) {
+          uzytkownik.nazwa = nazwa;
         }
       });
 

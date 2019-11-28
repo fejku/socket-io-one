@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { SocketContext } from "./../../../KolkoIKrzyzyk";
+import { KikSocketContext } from "./../../../KolkoIKrzyzyk";
 import { ZakladkiContext } from "./../../Zakladki";
 
 import { IPokoj } from "./../../../../../model/IPokoj";
@@ -11,7 +11,7 @@ interface IDodajPokojParam {
 }
 
 const DodajPokoj: React.FC = () => {
-  const socket = useContext(SocketContext);
+  const socket = useContext(KikSocketContext);
   const [zakladki, setZakladki] = useContext(ZakladkiContext);
 
   const [nazwaPokoju, setNazwaPokoju] = useState("");

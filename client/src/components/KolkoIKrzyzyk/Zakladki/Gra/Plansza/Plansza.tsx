@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
 
-import { SocketContext } from "./../../../KolkoIKrzyzyk";
+import { KikSocketContext } from "./../../../KolkoIKrzyzyk";
 
 import { IPokoj } from "./../../../../../model/IPokoj";
 
@@ -18,7 +18,7 @@ interface IPlanszaProps {
 const Plansza: React.FC<IPlanszaProps> =
   ({ statusAktywny, planszaState: [plansza, setPlansza], aktywnyGracz, pokoj }) => {
 
-  const socket = useContext(SocketContext);
+  const socket = useContext(KikSocketContext);
 
   const dajKlasy = (index: number) => {
     const result = [];

@@ -8,3 +8,5 @@ Wychodzenie z pokoi - po wyjściu dwóch graczy, usuwanie pokoju
 Napamiętywanie nazwy gracza a nie socketu
 
 https://medium.com/better-programming/building-basic-react-authentication-e20a574d5e71
+
+po wejściu do pokoju aktualny gracz ma oczekiwanie na przeciwnika

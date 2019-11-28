@@ -3,7 +3,9 @@ import socketIOClient from "socket.io-client";
 
 import Zakladki from "./Zakladki/Zakladki";
 
-export const SocketContext = React.createContext<SocketIOClient.Socket | null>(null);
+import { SocketEvent } from "../../model/SocketEvent";
+
+export const KikSocketContext = React.createContext<SocketIOClient.Socket | null>(null);
 
 const KolkoIKrzyzyk: React.FC = () => {
   const ENDPOINT = "http://localhost:3001/kik";
@@ -13,15 +15,15 @@ const KolkoIKrzyzyk: React.FC = () => {
   useEffect(() => {
     const socketIO = socketIOClient(ENDPOINT);
 
-    socketIO.on("connect", () => {
+    socketIO.on(SocketEvent.CONNECT, () => {
       setSocket(socketIO);
     });
   }, []);
 
   return (
-    <SocketContext.Provider value={socket}>
+    <KikSocketContext.Provider value={socket}>
         {socket && <Zakladki />}
-    </SocketContext.Provider>
+    </KikSocketContext.Provider>
   );
 };
 

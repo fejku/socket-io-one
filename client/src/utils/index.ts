@@ -5,7 +5,17 @@ const getUUIDv4 = () => "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, 
   return v.toString(16);
 });
 
+const dajSocketId = (socketId: string) => {
+  return socketId.split("#")[1];
+};
+
+const zlozSocketId = (namespace: string, socketId: string) => {
+  return `${namespace}#${socketId}`;
+};
+
 export {
   // isObjectEmpty,
   getUUIDv4,
+  dajSocketId,
+  zlozSocketId,
 };

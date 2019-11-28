@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import Pokoj from "./Pokoj/Pokoj";
 
-import { SocketContext } from "./../../../KolkoIKrzyzyk";
+import { KikSocketContext } from "./../../../KolkoIKrzyzyk";
 
 import { IPokoj } from "../../../../../model/IPokoj";
 
 import "./Pokoje.css";
 
 const Pokoje: React.FC = () => {
-  const socket = useContext(SocketContext);
+  const socket = useContext(KikSocketContext);
 
   const [pokoje, setPokoje] = useState<IPokoj[]>([]);
 

@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { SocketContext } from "../../KolkoIKrzyzyk";
+import { KikSocketContext } from "../../KolkoIKrzyzyk";
 
+import { dajSocketId } from "../../../../utils";
 import { IPokoj } from "./../../../../model/IPokoj";
 import { KikSocketEvent } from "./../../../../model/SocketEvent";
 
@@ -17,7 +18,7 @@ interface IGraProps {
 
 const Gra: React.FC<IGraProps> = ({pokoj}) => {
   const history = useHistory();
-  const socket = useContext(SocketContext);
+  const socket = useContext(KikSocketContext);
 
   const [plansza, setPlansza] = useState(
     [
@@ -28,6 +29,8 @@ const Gra: React.FC<IGraProps> = ({pokoj}) => {
   const [statusAktywny, setStatusAktywny] = useState(false);
   const [status, setStatus] = useState("Oczekiwanie na przeciwnika");
   const [aktywnyGracz, setAktywnyGracz] = useState(0);
+
+  const nazwa = sessionStorage.getItem("nazwa uzytkownika");
 
   useEffect(() => {
     if (socket) {
@@ -98,7 +101,7 @@ const Gra: React.FC<IGraProps> = ({pokoj}) => {
     <div className="gra">
       <KoniecGryModal tytul={komnunikatModalKoniecGry} onZagrajPonownie={handleZagrajPonownie} onWyjdz={handleWyjdz} />
       <div className="tytul">
-        <p>Socket id: {socket && socket.id}</p>
+        <p>Użytkownik {nazwa} Socket id: {socket && dajSocketId(socket.id)} </p>
         <p>{status}</p>
       </div>
       <Plansza

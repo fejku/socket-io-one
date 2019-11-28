@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import socketIOClient from "socket.io-client";
 
@@ -9,10 +9,16 @@ import NazwaRoute from "./components/NazwaRoute";
 import Header from "./global/Header";
 import { getUUIDv4 } from "./utils";
 
+import { SocketEvent, UzytkownikSocketEvent } from "./model/SocketEvent";
+
 import "./App.css";
+
+export const UzytkownikSocketContext = createContext<SocketIOClient.Socket | null>(null);
 
 const App: React.FC = () => {
   const ENDPOINT = "http://localhost:3001/users";
+
+  const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
 
   useEffect(() => {
     let uuid = sessionStorage.getItem("uuid");
@@ -22,22 +28,28 @@ const App: React.FC = () => {
     }
 
     const socketIO = socketIOClient(ENDPOINT);
-    socketIO.emit("init", uuid);
+
+    socketIO.on(SocketEvent.CONNECT, () => {
+      socketIO.emit(UzytkownikSocketEvent.INIT, uuid);
+      setSocket(socketIO);
+    });
   }, []);
 
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Header />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/nazwa" component={Nazwa} />
-          <NazwaRoute exact path="/kik">
-            <KolkoIKrzyzyk />
-          </NazwaRoute>
-        </Switch>
-      </BrowserRouter>
-    </div>
+    <UzytkownikSocketContext.Provider value={socket}>
+      <div className="App">
+        <BrowserRouter>
+          <Header />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/nazwa" component={Nazwa} />
+            <NazwaRoute exact path="/kik">
+              <KolkoIKrzyzyk />
+            </NazwaRoute>
+          </Switch>
+        </BrowserRouter>
+      </div>
+    </UzytkownikSocketContext.Provider>
   );
 };
 

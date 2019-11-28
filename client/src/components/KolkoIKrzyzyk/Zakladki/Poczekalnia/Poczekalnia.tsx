@@ -1,20 +1,23 @@
 import React, { useContext } from "react";
-import { SocketContext } from "../../KolkoIKrzyzyk";
+
+import { KikSocketContext } from "../../KolkoIKrzyzyk";
 import Zakladka from "../Zakladka/Zakladka";
+import DodajPokoj from "./DodajPokoj/DodajPokoj";
 import Pokoje from "./Pokoje/Pokoje";
 
-import DodajPokoj from "./DodajPokoj/DodajPokoj";
+import { dajSocketId } from "../../../../utils";
+
 import "./Poczekalnia.css";
 
 const Poczekalnia: React.FC = () => {
-  const socket = useContext(SocketContext);
+  const socket = useContext(KikSocketContext);
 
   const nazwa = sessionStorage.getItem("nazwa uzytkownika");
 
   return (
     <Zakladka>
       <div className="poczekalnia">
-        <p>Użytkownik {nazwa} Socket id: {socket && socket.id} </p>
+        <p>Użytkownik {nazwa} Socket id: {socket && dajSocketId(socket.id)} </p>
         <DodajPokoj />
         <hr/>
         <Pokoje />
