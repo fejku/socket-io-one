@@ -1,7 +1,7 @@
 import { IGra } from "./../../model/IGra";
 import { IGracz } from "./../../model/IGracz";
 import { IUzytkownik } from "./../../model/IUzytkownik";
-import { Gracz } from "../model";
+import { Gracz } from "./../model";
 
 export class Gra implements IGra {
   public static readonly MAX_ILOSC_GRACZY = 2;

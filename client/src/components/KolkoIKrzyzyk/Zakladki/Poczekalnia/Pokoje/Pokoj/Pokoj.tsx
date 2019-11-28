@@ -20,14 +20,25 @@ const Pokoj: React.FC<IPokojProps> = ({ pokoj }) => {
 
   const iloscGraczy = pokoj.gra.gracze.length;
   const czyPokojPelny = iloscGraczy === 2 ? "(Full)" : "";
-  const czyGraczWPokoju = pokoj.gra.gracze.includes(socket.id);
   const napisIloscGraczy = iloscGraczy + "/2";
+
+  const czyGraczWPokoju = () => {
+    if (socket) {
+      for (const gracz of pokoj.gra.gracze) {
+        if (gracz.uzytkownik.socketId === socket.id) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
 
   const handleDolaczDoPokoju = () => {
     if (socket) {
       socket.emit("join room", pokoj.id);
     }
-    setZakladki([...zakladki, <Gra nazwa={pokoj.nazwa} pokoj={pokoj} />])
+    setZakladki([...zakladki, pokoj]);
   };
 
   return (
@@ -35,7 +46,7 @@ const Pokoj: React.FC<IPokojProps> = ({ pokoj }) => {
       <div className="pokoj" key={pokoj.id}>
         <div className="pokoj_name">
           {pokoj.nazwa} - {napisIloscGraczy} {czyPokojPelny}
-          {czyGraczWPokoju || czyPokojPelny ? null : <button onClick={handleDolaczDoPokoju}>Dołącz</button>}
+          {czyGraczWPokoju() || czyPokojPelny ? null : <button onClick={handleDolaczDoPokoju}>Dołącz</button>}
         </div>
         <Gracze gracze={pokoj.gra.gracze} />
       </div>

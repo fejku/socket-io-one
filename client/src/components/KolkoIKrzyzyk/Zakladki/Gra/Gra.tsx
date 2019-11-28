@@ -11,11 +11,11 @@ import Plansza from "./Plansza/Plansza";
 
 import "./Gra.css";
 
-interface IGra {
+interface IGraProps {
   pokoj: IPokoj;
 }
 
-const Gra: React.FC<IGra> = ({pokoj}) => {
+const Gra: React.FC<IGraProps> = ({pokoj}) => {
   const history = useHistory();
   const socket = useContext(SocketContext);
 
@@ -96,15 +96,16 @@ const Gra: React.FC<IGra> = ({pokoj}) => {
 
   return (
     <div className="gra">
-      <KoniecGryModal title={komnunikatModalKoniecGry} onZagrajPonownie={handleZagrajPonownie} onWyjdz={handleWyjdz} />
-      <div className="title">
+      <KoniecGryModal tytul={komnunikatModalKoniecGry} onZagrajPonownie={handleZagrajPonownie} onWyjdz={handleWyjdz} />
+      <div className="tytul">
         <p>Socket id: {socket && socket.id}</p>
         <p>{status}</p>
       </div>
       <Plansza
         statusAktywny={statusAktywny}
         planszaState={[plansza, setPlansza]}
-        aktywnyGracz={aktywnyGracz} pokoj={pokoj}
+        aktywnyGracz={aktywnyGracz}
+        pokoj={pokoj}
       />
     </div>
   );
