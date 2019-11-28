@@ -35,12 +35,12 @@ export class Gra implements IGra {
   }
 
   public dolaczGracza(uzytkownik: IUzytkownik): boolean {
-    if (this._gracze.length >= Gra.MAX_ILOSC_GRACZY) {
+    if (this.gracze.length >= Gra.MAX_ILOSC_GRACZY) {
       return false;
     }
 
     const gracz = new Gracz(uzytkownik);
-    this._gracze.push(gracz);
+    this.gracze.push(gracz);
     return true;
   }
 
@@ -87,7 +87,7 @@ export class Gra implements IGra {
   }
 
   public ustawAktywnoscGracza(socketId: string, gotowy: boolean) {
-    const gracz = this._gracze.find((g) => g.uzytkownik.socketId = socketId);
+    const gracz = this._gracze.find((g) => g.uzytkownik.socketId === socketId);
     if (gracz) {
       gracz.gotowy = gotowy;
     }
