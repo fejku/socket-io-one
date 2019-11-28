@@ -44,6 +44,11 @@ export class Gra implements IGra {
     return true;
   }
 
+  public wyrzucGracza(uzytkownik: IUzytkownik): boolean {
+    this.gracze = this.gracze.filter((g) => g.uzytkownik.id !== uzytkownik.id);
+    return true;
+  }
+
   public aktualnyGracz(): IGracz {
     return this._gracze[this.aktywnyGracz];
   }

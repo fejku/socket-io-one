@@ -22,4 +22,5 @@ export enum KikRoomSocketEvent {
   CREATE_ROOM = "create room",
   JOIN_ROOM = "join room",
   REFRESH_ROOMS = "refresh rooms",
+  LEAVE_ROOM = "leave room",
 }

@@ -9,4 +9,7 @@ Napamiętywanie nazwy gracza a nie socketu
 
 https://medium.com/better-programming/building-basic-react-authentication-e20a574d5e71
 
-po wejściu do pokoju aktualny gracz ma oczekiwanie na przeciwnika
+
+Nie działa ponowna gra/ plansza nie czyści się.
+Po Wyjściu z gry przekierowuje nas do strony głównej zamiast do podstrony kik, 
+  Nie usuwa gracza z pokoju

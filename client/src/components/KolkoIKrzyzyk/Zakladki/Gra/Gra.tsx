@@ -4,8 +4,9 @@ import { useHistory } from "react-router-dom";
 import { KikSocketContext } from "../../KolkoIKrzyzyk";
 
 import { dajSocketId } from "../../../../utils";
+import { ZakladkiContext } from "../Zakladki";
 import { IPokoj } from "./../../../../model/IPokoj";
-import { KikSocketEvent } from "./../../../../model/SocketEvent";
+import { KikRoomSocketEvent, KikSocketEvent } from "./../../../../model/SocketEvent";
 
 import KoniecGryModal from "./KoniecGryModal";
 import Plansza from "./Plansza/Plansza";
@@ -19,6 +20,7 @@ interface IGraProps {
 const Gra: React.FC<IGraProps> = ({pokoj}) => {
   const history = useHistory();
   const socket = useContext(KikSocketContext);
+  const [zakladki, setZakladki] = useContext(ZakladkiContext);
 
   const [plansza, setPlansza] = useState(
     [
@@ -93,8 +95,13 @@ const Gra: React.FC<IGraProps> = ({pokoj}) => {
   };
 
   const handleWyjdz = () => {
-    // TODO: wywalić użytkownika z pokoju
-    history.push("/");
+    if (socket) {
+      socket.emit(KikRoomSocketEvent.LEAVE_ROOM, pokoj.id, () => {
+        socket.emit(KikRoomSocketEvent.GET_MY_ROOMS, (pokoje: IPokoj[]) => {
+          setZakladki(pokoje);
+        });
+      });
+    }
   };
 
   return (

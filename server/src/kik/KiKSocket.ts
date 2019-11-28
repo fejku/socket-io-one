@@ -33,7 +33,7 @@ export class KiKSocket {
         response(this.pokoje.dajPokoje(dajSocketId(socket.id)).map((p) => p.dajDTO()));
       });
 
-      socket.on(KikRoomSocketEvent.CREATE_ROOM, (nazwaPokoju: string, response: (pokoj: IPokoj) => {}) => {
+      socket.on(KikRoomSocketEvent.CREATE_ROOM, (nazwaPokoju: string, response: (pokoj: IPokoj) => void) => {
         const pokoj = this.pokoje.nowyPokoj(nazwaPokoju);
         this.namespace.emit(KikRoomSocketEvent.REFRESH_ROOMS, this.pokoje.listaPokoi.map((p) => p.dajDTO()));
         response(pokoj.dajDTO());
@@ -47,6 +47,17 @@ export class KiKSocket {
             this.namespace.emit(KikRoomSocketEvent.REFRESH_ROOMS, this.pokoje.listaPokoi.map((p) => p.dajDTO()));
           }
         }
+      });
+
+      socket.on(KikRoomSocketEvent.LEAVE_ROOM, (pokojId: number, response: () => void) => {
+        const uzytkownik = this.uzytkownicy.dajUzytkownikaSocketId(dajSocketId(socket.id));
+        if (uzytkownik) {
+          if (this.pokoje.wyjdzZPokoju(pokojId, uzytkownik)) {
+            socket.leave(pokojId.toString());
+            this.namespace.emit(KikRoomSocketEvent.REFRESH_ROOMS, this.pokoje.listaPokoi.map((p) => p.dajDTO()));
+          }
+        }
+        response();
       });
 
       socket.on(KikSocketEvent.READY, (pokojId: number) => {

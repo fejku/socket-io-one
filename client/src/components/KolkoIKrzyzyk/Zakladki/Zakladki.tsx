@@ -21,16 +21,10 @@ const Zakladki: React.FC = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.on(KikRoomSocketEvent.GET_MY_ROOMS, (pokoje: IPokoj[]) => {
+      socket.emit(KikRoomSocketEvent.GET_MY_ROOMS, (pokoje: IPokoj[]) => {
         setZakladki(pokoje);
       });
     }
-
-    return () => {
-      if (socket) {
-        socket.off(KikRoomSocketEvent.GET_MY_ROOMS);
-      }
-    };
   }, []);
 
   // TODO: Aktualnie tylko dodawnie nowych pokoi, ale w przyszłości trzeba będzie

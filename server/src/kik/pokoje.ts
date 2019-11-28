@@ -28,6 +28,14 @@ export class Pokoje {
     return false;
   }
 
+  public wyjdzZPokoju(pokojId: number, uzytkownik: IUzytkownik): boolean {
+    const pokoj = this.dajPokoj(pokojId);
+    if (pokoj) {
+      return pokoj.gra.wyrzucGracza(uzytkownik);
+    }
+    return false;
+  }
+
   public dajPokoje(socketId: string) {
     return this.listaPokoi.filter(
       (p) => p.gra.gracze.some(
