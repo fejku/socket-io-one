@@ -5,6 +5,7 @@ import Gracze from "./Gracze/Gracze";
 import { KikSocketContext } from "./../../../../KolkoIKrzyzyk";
 import { ZakladkiContext } from "./../../../Zakladki";
 
+import { KikRoomSocketEvent } from "../../../../../../model/SocketEvent";
 import { dajSocketId } from "../../../../../../utils";
 import { IPokoj } from "./../../../../../../model/IPokoj";
 
@@ -36,9 +37,10 @@ const Pokoj: React.FC<IPokojProps> = ({ pokoj }) => {
 
   const handleDolaczDoPokoju = () => {
     if (socket) {
-      socket.emit("join room", pokoj.id);
+      socket.emit(KikRoomSocketEvent.JOIN_ROOM, pokoj.id, () => {
+        setZakladki([...zakladki, pokoj]);
+      });
     }
-    setZakladki([...zakladki, pokoj]);
   };
 
   return (

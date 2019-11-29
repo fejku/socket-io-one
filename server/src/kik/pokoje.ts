@@ -28,18 +28,29 @@ export class Pokoje {
     return false;
   }
 
-  public wyjdzZPokoju(pokojId: number, uzytkownik: IUzytkownik): boolean {
+  public wyjdzZPokoju(pokojId: number, uzytkownik: IUzytkownik) {
     const pokoj = this.dajPokoj(pokojId);
     if (pokoj) {
-      return pokoj.gra.wyrzucGracza(uzytkownik);
+      pokoj.gra.wyrzucGracza(uzytkownik);
+      if (this.czyPokojPusty(pokoj)) {
+        this.usunPokoj(pokoj);
+      }
     }
-    return false;
   }
 
   public dajPokoje(socketId: string) {
     return this.listaPokoi.filter(
       (p) => p.gra.gracze.some(
         (g) => g.uzytkownik.socketId === socketId));
+  }
+
+  private czyPokojPusty(pokoj: Pokoj) {
+    return pokoj.gra.gracze.length === 0;
+  }
+
+  private usunPokoj(pokoj: Pokoj) {
+    const pokoje = this.listaPokoi.filter((p) => p.id !== pokoj.id);
+    this.listaPokoi = pokoje;
   }
 
   public get listaPokoi(): Pokoj[] {

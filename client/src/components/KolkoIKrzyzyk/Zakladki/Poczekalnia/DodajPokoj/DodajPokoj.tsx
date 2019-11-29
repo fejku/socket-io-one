@@ -19,8 +19,9 @@ const DodajPokoj: React.FC = () => {
   const handleDodajPokoj = () => {
     if (socket) {
       socket.emit(KikRoomSocketEvent.CREATE_ROOM, nazwaPokoju, (pokoj: IPokoj) => {
-        socket.emit(KikRoomSocketEvent.JOIN_ROOM, pokoj.id);
-        setZakladki([...zakladki, pokoj]);
+        socket.emit(KikRoomSocketEvent.JOIN_ROOM, pokoj.id, () => {
+          setZakladki([...zakladki, pokoj]);
+        });
       });
     }
     setNazwaPokoju("");

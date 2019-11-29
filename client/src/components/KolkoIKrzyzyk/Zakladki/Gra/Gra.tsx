@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 
 import { KikSocketContext } from "../../KolkoIKrzyzyk";
 
@@ -15,10 +14,10 @@ import "./Gra.css";
 
 interface IGraProps {
   pokoj: IPokoj;
+  setAktualnaZakladka: Dispatch<SetStateAction<number>>;
 }
 
-const Gra: React.FC<IGraProps> = ({pokoj}) => {
-  const history = useHistory();
+const Gra: React.FC<IGraProps> = ({ pokoj, setAktualnaZakladka }) => {
   const socket = useContext(KikSocketContext);
   const [zakladki, setZakladki] = useContext(ZakladkiContext);
 
@@ -97,9 +96,9 @@ const Gra: React.FC<IGraProps> = ({pokoj}) => {
   const handleWyjdz = () => {
     if (socket) {
       socket.emit(KikRoomSocketEvent.LEAVE_ROOM, pokoj.id, () => {
-        socket.emit(KikRoomSocketEvent.GET_MY_ROOMS, (pokoje: IPokoj[]) => {
-          setZakladki(pokoje);
-        });
+        const noweZakladki = zakladki.filter((z) => z.id !== pokoj.id);
+        setAktualnaZakladka(noweZakladki.length);
+        setZakladki(noweZakladki);
       });
     }
   };

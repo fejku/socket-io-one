@@ -27,9 +27,6 @@ const Zakladki: React.FC = () => {
     }
   }, []);
 
-  // TODO: Aktualnie tylko dodawnie nowych pokoi, ale w przyszłości trzeba będzie
-  // zrobić sprawdzanie z poprzednim stanem (useRef) i jesli pokój został zamknięty
-  // to powracać do poczekalni? a może zawsze powrót do ostatniego pokoju?
   useEffect(() => {
     const ostatniaZakladka = zakladki.length;
     setAktualnaZakladka(ostatniaZakladka);
@@ -55,7 +52,10 @@ const Zakladki: React.FC = () => {
               onClick={handleMenuClick}
             />)}
         </ul>
-        {aktualnaZakladka === 0 ? <Poczekalnia /> : <Gra pokoj={zakladki[aktualnaZakladka - 1]} />}
+        {aktualnaZakladka < 1 ?
+          <Poczekalnia /> :
+          <Gra pokoj={zakladki[aktualnaZakladka - 1]} setAktualnaZakladka={setAktualnaZakladka} />
+        }
       </div>
     </ZakladkiContext.Provider>
   );
