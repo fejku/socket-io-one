@@ -5,16 +5,10 @@ import "./Pole.css";
 interface IPoleProps {
   id: number;
   wartosc: number;
-  klasy: string[];
   onClick: (id: number) => void;
 }
 
-const Pole: React.FC<IPoleProps> = ({ id, wartosc, klasy, onClick }) => {
-
-  const dajKlasy = () => {
-    const result = ["pole", ...klasy];
-    return result.join(" ");
-  };
+const Pole: React.FC<IPoleProps> = ({ id, wartosc, onClick }) => {
 
   const dajSymbol = (wartosc: number) => {
     switch (wartosc) {
@@ -29,7 +23,7 @@ const Pole: React.FC<IPoleProps> = ({ id, wartosc, klasy, onClick }) => {
   };
 
   return (
-    <div className={dajKlasy()} onClick={handleClick}>
+    <div className="pole" onClick={handleClick}>
       {dajSymbol(wartosc)}
     </div>
   );

@@ -66,7 +66,7 @@ export class KiKSocket {
           pokoj.gra.ustawAktywnoscGracza(dajSocketId(socket.id), true);
           if (pokoj.gra.czyWszyscyGracze()) {
             const gra = pokoj.gra;
-            gra.wylosujKolejnosc();
+            gra.inicjujNowaGre();
             this.namespace.to(zlozSocketId(KiKSocket.NAMESPACE, gra.aktualnyGracz().uzytkownik.socketId))
               .emit(KikSocketEvent.MY_TURN, gra.plansza, gra.aktywnyGracz);
             this.namespace.to(zlozSocketId(KiKSocket.NAMESPACE, gra.nieaktywnyGracz().uzytkownik.socketId))

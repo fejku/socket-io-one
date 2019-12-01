@@ -20,20 +20,6 @@ const Plansza: React.FC<IPlanszaProps> =
 
   const socket = useContext(KikSocketContext);
 
-  const dajKlasy = (index: number) => {
-    const result = [];
-
-    if ([1, 4, 7].includes(index)) {
-      result.push("pion");
-    }
-
-    if ([3, 4, 5].includes(index)) {
-      result.push("poziom");
-    }
-
-    return result;
-  };
-
   const czyPoleAktywne = (pole: number) => {
     return statusAktywny && (pole === -1);
   };
@@ -55,7 +41,6 @@ const Plansza: React.FC<IPlanszaProps> =
       key={index}
       id={index}
       wartosc={plansza[index]}
-      klasy={dajKlasy(index)}
       onClick={handlePoleClick}
     />;
   });

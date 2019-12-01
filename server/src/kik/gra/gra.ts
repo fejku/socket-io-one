@@ -26,12 +26,9 @@ export class Gra implements IGra {
     return dto;
   }
 
-  public wylosujKolejnosc(): void {
-    if (Math.floor(Math.random() * 2)) {
-      const pom = this._gracze[0];
-      this._gracze[0] = this._gracze[1];
-      this._gracze[1] = pom;
-    }
+  public inicjujNowaGre(): void {
+    this.wyczyscPlansze();
+    this.wylosujKolejnosc();
   }
 
   public dolaczGracza(uzytkownik: IUzytkownik): boolean {
@@ -65,7 +62,8 @@ export class Gra implements IGra {
   }
 
   public czyWszyscyGracze(): boolean {
-    return this._gracze.length === Gra.MAX_ILOSC_GRACZY;
+    return (this.gracze.length === Gra.MAX_ILOSC_GRACZY)
+      && this.gracze.every((g) => g.gotowy);
   }
 
   public ruch(poleId: number): void {
@@ -95,6 +93,20 @@ export class Gra implements IGra {
     const gracz = this._gracze.find((g) => g.uzytkownik.socketId === socketId);
     if (gracz) {
       gracz.gotowy = gotowy;
+    }
+  }
+
+  private wyczyscPlansze(): void {
+    for (let i = 0; i < this.plansza.length; i++) {
+      this.plansza[i] = -1;
+    }
+  }
+
+  private wylosujKolejnosc(): void {
+    if (Math.floor(Math.random() * 2)) {
+      const pom = this._gracze[0];
+      this._gracze[0] = this._gracze[1];
+      this._gracze[1] = pom;
     }
   }
 

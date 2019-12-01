@@ -1,7 +1,8 @@
 .plansza {
   height: 90%;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 30%);
+  grid-template-rows: repeat(3, 30%);
   justify-content: center;
   align-content: center;
 }

@@ -3,11 +3,12 @@
 }
 
 .zakladki_menu {
+  height: 10%;
   display: flex;
+  margin: 0;
 }
 
 .zakladki_menu > li {
-  list-style: none;
-  margin: 0;
+  list-style: none;  
   padding: 0 5px;
 }
